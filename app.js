@@ -124,6 +124,7 @@ function getXLS(req, res) {
 // ------------------------------------------------------------------ //
 
 app.post('/generatePdfReport', function (req, res) {
+
   if (req.body.type == "trail_balance") {
     console.log('req.body.data',req.body.logo)
     jsreport

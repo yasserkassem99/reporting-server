@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+              integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/css?family=Cairo&display=swap" rel="stylesheet" />
+        <script src="https://storage.googleapis.com/minagate_config/Tafqeet.js"></script>
+        <script src="https://cdn.jsdelivr.net/jsbarcode/3.6.0/JsBarcode.all.min.js"></script>
+            <script src="https://code.jquery.com/jquery-3.4.1.js"
+        integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+        <style>
+                  body {
+                        font-family: "Cairo", sans-serif;
+                        font-size:11px;
+                        direction: rtl;
+                        padding-right: 5%;
+                        }
+                        .field{
+                            margin-bottom: 25px;
+                            font-size: 18px;
+                            display: flex;
+                        }
+                        .field_text{
+                            border-bottom: 1px dashed #999;
+                            text-decoration: none; 
+                            flex: 1;
+                            margin-right: 7px;
+                        }
+        </style>
+    </head>
+    <body>
+            <div style="display: flex;justify-content:space-around;border-bottom: 1px solid;margin-bottom: 10px;">
+                <img src='https://www.tenderjo.com/DataFiles/supplierslogo/2019090511400520170611_163840.png' style="max-height: 120px;"/>
+                <div style="display: flex;flex-direction: column; align-items: center;justify-content: center;">
+                    <p dir="ltr">&#9632;Tel: +96227384542, Fax: +96227384541, Email:tradiabat@yahoo.com</p> 
+                    <p dir="ltr">&#9632; P.O.Box 400 Al-Ramtha 21410 Jordan</p>
+                    <p>الرمثا - شارع الملك حسين - سعيد مول طابق ثاني</p>
+                </div>
+                <img id="barcode" style="max-height: 120px;align-self: center;"/>
+            </div>
+            <div style="display: flex;margin-bottom: 50px;">
+                <div style="flex: 1;">
+                <p style="font-size: 20px;">التاريخ: {{voucher_date}}</p>
+                </div>
+                <div style="flex: 1;text-align: center;">
+                <h3 style="margin: 0;">سند صرف</h3>
+                </div>
+                <div style="flex: 1;text-align: end;">
+                <p style="font-size: 20px;">No {{voucher_id}}</p></div>
+            </div>
+
+            <div>
+                <div class="field">
+                    <p>يصرف ل:</p>
+                    <p class="field_text">{{driver_name}}</p>
+                </div>
+                <div class="field">
+                    <p>مبلغ وقدره: </p>
+                    <div style="display: flex;" id="field3" class="field_text">
+                        <p id='valueholder' ></p>
+                    </div>
+                    
+                </div>
+                <div style="display: flex;">
+                    <div style="flex: 1;" class="field">
+                        <p>نوع العملية: </p>
+                        <p class="field_text">{{operation_type}}</p>
+                    </div>
+                    <div style="flex: 2;" class="field">
+                        <p>وذلك عن: </p>
+                        <p class="field_text">{{clearing_agent}}</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <div style="display: flex; justify-content: flex-end;max-width: 85%;">
+                <p>توقيع المستلم:</p>
+            </div>
+            
+            <script>
+            checknickels = (value) => {
+                let tempValue = value.toString();
+                let nickels = "";
+                if (tempValue.indexOf(".") !== -1) {
+                    let tempArray = tempValue.split(".");
+                    tempArray[0] = tafqeet(tempArray[0]);
+                    return tempArray;
+                }
+                else {
+                    return tafqeet(tempValue);
+                }
+            }
+            $(document).ready(function () {
+                JsBarcode("#barcode", '2040033543', {
+                    height: 30
+                });
+                let amount = "{{data.[0].tafqeetAmount}}"
+                let currencyValue = "دينار"
+                let tafqeetValue = tafqeet(500.65)
+                if (Number(amount) % 100 == 0) {
+                    currencyValue = "دينار"
+                } else if (tafqeetValue.split(" ")[tafqeetValue.split(" ").length - 1][tafqeetValue.split(" ")[tafqeetValue.split(" ").length - 1].length - 1] == "ة") {
+                    currencyValue = "دنانير"
+                } else {
+                    currencyValue = "دينار"
+                }
+                if (amount && amount.trim() != "" && "{{data.[0].decemelAmount}}" && "{{data.[0].decemelAmount}}".trim() != "") {
+                    document.getElementById("valueholder").innerText = " فقط " + tafqeet(amount) + " " + currencyValue + " أردني " + " و " + "{{data.[0].decemelAmount}}" + " فلس " + " لاغير";
+
+                } else if (amount && amount.trim() != "" && "{{data.[0].decemelAmount}}".trim() == "") {
+                    document.getElementById("valueholder").innerText = " فقط " + tafqeet(amount) + " " + currencyValue + " أردني " + " لاغير";
+                }
+            })
+        </script>
+    </body>
+</html>
