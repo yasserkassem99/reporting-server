@@ -1,0 +1,320 @@
+<html>
+
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/jsbarcode/3.6.0/JsBarcode.all.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery.qrcode@1.0.3/jquery.qrcode.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+        crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Amiri:400,700&amp;subset=arabic" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600%7CRaleway:300,400,500,600,700%7CLato:300,400,400italic,600,700"
+        rel="stylesheet" type="text/css" />
+    <style>
+        /* .container {
+            font-family: 'Tajawal', sans-serif;
+
+        } */
+
+        .page-break {
+            display: block;
+            page-break-before: always;
+        }
+
+        .heading {
+            margin-bottom: 50px;
+            margin-top: 0%;
+        }
+
+        .barcode {
+            /* margin-left: 0%; */
+            position: absolute;
+            top: 0px;
+            left:  -5px;
+        }
+
+        .QR {
+            /* margin-left: 0%; */
+            position: absolute;
+            top: -0px;
+            left: 10px;
+        }
+
+
+        .form-group {
+            padding-right: 11px !important;
+            padding-top: 0px !important;
+            font-size: 16px;
+        }
+
+
+        #powered {
+            position: absolute;
+            left: 20px;
+            bottom: 35px;
+        }
+
+        #SysDate {
+            position: absolute;
+            left: 20px;
+            bottom: 20px;
+        }
+
+        #printedBy {
+            position: absolute;
+            left: 20px;
+            bottom: 3px;
+        }
+
+        .title {
+            position: absolute;
+            right: 50%;
+        }
+
+        .well {
+            margin-bottom: 10px;
+            padding: 10px
+        }
+    </style>
+
+
+    <script>
+
+        $(document).ready(function () {
+
+            $("#SysDate").append('<span>' + new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate() + ' ' + new Date().getHours() + ':' + new Date().getMinutes() + '</span>');
+            JsBarcode("#barcode", "{{this.id}}", {
+                height: 25
+            });
+            let temp = " من حساب:{{this.trx_template.from_account}} "
+            temp += " الى حساب: {{this.trx_template.target_account}} "
+            temp += " مبلغ:{{this.trx_template.amount}} دينار"
+            temp += " تاريخ الاستحقاق:{{this.due_date}}"
+            $("#QR").append('<img src="https://chart.googleapis.com/chart?cht=qr&chl=' + temp + '&chs=180x180&chld=L|0" class="qr-code" width="170">');
+
+
+        });
+    </script>
+</head>
+
+
+<body dir='rtl' style="font-family:Amiri; font-size:17px ">
+    <div class="container ">
+
+        <div class="heading row" style="padding-bottom:10px">
+            <div class="col-md-12 col-sm-12 col-lg-12">
+                <div style="width:150px; height:50px">
+                    <img class="col-md-4 col-lg-4 col-sm-4 pull-right"  src="https://firebasestorage.googleapis.com/v0/b/waybill-project.appspot.com/o/3b98aa23-ea5b-45e9-8f25-5233b3e99841.jpg?alt=media&token=0cc1833f-b0cc-4546-878a-b437781b27eb"
+                        width="100%" /> </div>
+                <label style="margin-top:1%; font-weight:bold;font-size: 19px" class="col-md-4 col-lg-4 col-sm-4 pull-right">
+                    عدل  للنقل والخدمات اللوجستية
+                    <br>
+                    أمر صرف
+                </label>
+                <div class="QR" id="QR">
+
+                 </div>
+
+            </div>
+        </div>
+        <div>
+
+            <div class="well" style="margin-top: 5px">
+                <fieldset>
+                    <div class="col-md-6 col-sm-6 col-xs-6 " style="float:right">
+
+
+                        <div class="form-group ">
+                            <label style="font-size:17px">رقم أمر الصرف : </label>
+
+                            <span style="font-size:17px"> {{this.id}}</span>
+                        </div>
+
+
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-xs-6 " style="float:right">
+
+
+                        <label style="font-size:17px"> تاريخ اﻹنشاء : </label>
+                        <span s tyle="font-size:17px"> {{this.create_date}}</span>
+                    </div>
+                    <div class="col-md-12 col-sm-12 col-xs-12 " style="float:right;    margin-right: 11px;">
+
+
+                        <label style="font-size:17px"> تاريخ اﻹستحقاق : </label>
+                        <span s tyle="font-size:17px"> {{this.due_date}}</span>
+                    </div>
+                </fieldset>
+
+            </div>
+            <div class="well">
+                <fieldset>
+
+
+                    <div class="col-md-6 col-sm-6 col-xs-6 " style="float:right">
+
+
+                        <div class="form-group ">
+                            <label style="font-size:17px"> من حساب : </label>
+
+                            <span style="font-size:17px"> {{this.trx_template.from_account}}</span>
+                        </div>
+
+
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-xs-6 " style="float:right">
+
+
+                        <label style="font-size:17px"> اسم الحساب : </label>
+                        <span s tyle="font-size:17px"> {{this.trx_template.from_account_name}}</span>
+                    </div>
+
+                </fieldset>
+
+                <fieldset>
+
+
+                    <div class="col-md-6 col-sm-6 col-xs-6 " style="float:right">
+
+
+                        <div class="form-group ">
+                            <label style="font-size:17px"> الى حساب : </label>
+
+                            <span style="font-size:17px"> {{this.trx_template.target_account}}</span>
+                        </div>
+
+
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-xs-6 " style="float:right">
+
+
+                        <label style="font-size:17px"> اسم الحساب : </label>
+                        <span s tyle="font-size:17px"> {{this.trx_template.target_account_name}}</span>
+                    </div>
+
+
+            </div>
+
+            <div class="well">
+                <fieldset>
+                    <div class="col-md-6 col-sm-6 col-xs-6 " style="float:right">
+
+
+                        <div class="form-group ">
+                            <label style="font-size:17px"> المبلغ : </label>
+
+                            <span style="font-size:17px"> {{this.trx_template.amount}} دينار</span>
+                        </div>
+
+
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-xs-6 " style="float:right">
+
+
+                        <div class="form-group ">
+                            <label style="font-size:17px"> طريقة الدفع : </label>
+
+                            <span style="font-size:17px"> {{this.payment_method}}</span>
+                        </div>
+
+
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <div class="col-md-6 col-sm-6 col-xs-6 " style="float:right">
+
+
+                        <div class="form-group ">
+                            <label style="font-size:17px"> الحالة : </label>
+
+                            <span style="font-size:17px"> {{this.StatusCaption}}</span>
+                        </div>
+
+
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-xs-6 " style="float:right">
+
+                        <div class="form-group ">
+                            <label style="font-size:17px"> الرقم المرجعي : </label>
+
+                            <span style="font-size:17px"> {{this.ref_id}}</span>
+                        </div>
+
+
+                    </div>
+                </fieldset>
+            </div>
+            <div class="well">
+                <fieldset>
+
+              
+                    <div class="col-md-12 col-sm-12 col-xs-12 " style="float:right">
+
+
+                        <div class="form-group ">
+                            <label style="font-size:17px"> الملاحظات : </label>
+
+                        </div>
+
+
+                        <div class="form-group ">
+                            <span style="font-size:17px"> {{this.notes}}</span>
+
+                        </div>
+
+
+                    </div>
+               
+
+                </fieldset>
+
+
+
+            </div>
+
+
+
+
+        </div>
+
+
+
+
+
+        <div class="">
+            <fieldset>
+
+                <div class="col-md-3 col-sm-3 col-xs-3" style="padding-right:35px;">
+                    <div class="form-group ">
+                            <svg class="barcode" id="barcode"></svg>
+
+                    </div>
+                </div>
+                <div class="col-md-9 col-sm-9 col-xs-9">
+                    <div class="form-group ">
+
+                        <label style="font-size:17px"> توقيغ المستلم : </label>
+
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+
+
+        <footer class="">
+            <div id="powered">
+                <img src='http://www.minagate.com/assets/images/logo-small.png' width="100px" /> Powered By
+            </div>
+
+            <div id="SysDate">
+            </div>
+            <div id="printedBy">
+                Printed By {{this.printedBy}}
+            </div>
+        </footer>
+    </div>
+
+</body>
+
+</body>
+
+</html>

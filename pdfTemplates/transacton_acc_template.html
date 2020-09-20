@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/jsbarcode/3.6.0/JsBarcode.all.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery.qrcode@1.0.3/jquery.qrcode.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+    integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Cairo&display=swap" rel="stylesheet" />
+  <style>
+      body {
+      font-family: "Cairo", sans-serif;
+      padding: 1em;
+      font-size:11px;
+    }
+  </style>
+</head>
+
+<body  dir="rtl">
+  <div>
+    <div class="well" style="background-color: #fff; border: none;">
+      <div class="col-xs-12">
+        <div class="row">
+          <div class="col-xs-12 text-center">
+            <h4>{{companyName}}</h4>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12 text-center">
+            <h5>سند قيد</h5>
+          </div>
+        </div>
+        <div class="row">
+          <div style="display: flex; justify-content: space-between; padding: 0 15px;">
+            <p>رقم الحركة: <strong>{{jv_id}}</strong></p>
+            <p>التاريخ: <strong>{{create_date}}</strong></p>
+          </div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="margin-top: 0px; padding: 0;">
+          <table style="text-align: center;min-width: 100%;">
+            <thead style="border: 1px solid #ccc;">
+              <td style="font-size:16px;padding:5px;border-left: 1px solid #ccc;">رقم الحساب</td>
+              <td style="font-size:16px;padding:5px;border-left: 1px solid #ccc;">اسم الحساب</td>
+              <td style="font-size:16px;padding:5px;border-left: 1px solid #ccc;">مدين</td>
+              <td style="font-size:16px;padding:5px;border-left: 1px solid #ccc;">دائن</td>
+              <td style="font-size:16px;padding:5px;border-left: 1px solid #ccc;">ملاحظات</td>
+              <td style="font-size:16px;padding:5px;border-left: 1px solid #ccc;">بواسطة</td>
+            </thead>
+            <tbody>
+              {{#each data}}
+              <tr class="item" style="border: 1px solid #ccc;">
+                <td style="border-left: 1px solid #ccc;text-align: center;min-width: 100px;padding: 1px;">
+                  {{account_number}}</td>
+                <td style="border-left: 1px solid #ccc;text-align: center;min-width: 150px;padding: 1px;">
+                  {{account_name}}</td>
+                  <td style="border-left: 1px solid #ccc;text-align: center;min-width: 70px;padding: 1px;">
+                    {{debit}}
+                  </td>
+                <td style="border-left: 1px solid #ccc;text-align: center;min-width: 70px;padding: 1px;">
+                  {{credit}}
+                </td>
+                <td style="border-left: 1px solid #ccc;text-align: center;min-width: 160px;padding: 1px;">
+                  {{notes}}
+                </td>
+                <td style="border-left: 1px solid #ccc;text-align: center;min-width: 70px;padding: 1px;">
+                  {{update_by}}
+                </td>
+              </tr>
+              {{/each}}
+              {{# each totalData}}
+              <tr class="item" style="border: 1px solid #ccc;">
+                <td style="border-left: 1px solid #ccc;text-align: center;min-width: 100px;height: 45px;">
+                  المجموع</td>
+                <td style="border-left: 1px solid #ccc;text-align: center;min-width: 150px;"></td>
+                  <td style="border-left: 1px solid #ccc;text-align: center;min-width: 70px;">
+                    {{total_debit}}
+                  </td>
+                <td style="border-left: 1px solid #ccc;text-align: center;min-width: 70px;">
+                  {{total_credit}}
+                </td>
+                <td style="border-left: 1px solid #ccc;text-align: center;min-width: 160px;">
+                </td>
+                <td style="border-left: 1px solid #ccc;text-align: center;min-width: 70px;">
+                </td>
+              </tr>
+              {{/each}}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div  style="position: fixed; top: 0;">
+        <p>تاريخ الطباعة: <strong>{{print_date}}</strong></p>
+    </div>
+    <div  style="position: fixed; top: 0; left:0;">
+      <p>طبع بواسطة: <strong>{{printer_name}}</strong></p>
+  </div>
+  <div style="position: fixed; bottom: 50px;width: 100%;">
+    <div class="row">
+      <div class="col-xs-1"></div>
+      <div class="col-xs-10 text-center">
+        <div class="col-xs-4">
+          <p>معد المستند:</p>
+        </div>
+        <div class="col-xs-4">
+          <p>المحاسبة:</p>
+        </div>
+        <div class="col-xs-4">
+          <p>التوقيع:</p>
+        </div>
+      </div>
+      <div class="col-xs-1"></div>
+    </div>
+
+  </div>
+  </div>
+</body>
+
+</html>

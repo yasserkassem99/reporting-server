@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/jsbarcode/3.6.0/JsBarcode.all.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery.qrcode@1.0.3/jquery.qrcode.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+    integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css?family=Amiri:400,700&amp;subset=arabic" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600%7CRaleway:300,400,500,600,700%7CLato:300,400,400italic,600,700"
+    rel="stylesheet" type="text/css" />
+</head>
+
+<body dir='rtl' style="font-family:Amiri; font-size:19px ">
+  <div class="container">
+    <div class="heading row" style="margin-bottom: 50px;">
+      <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
+      </div>
+    </div>
+
+    <div class="well" style="margin-right: 30px; background-color: #fff; border: none; margin-top:120px;">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" style="text-align: end;">
+          <div class="form-group">
+            <label style="font-size:19px">الرقم الضريبي : </label>
+            <span style="font-size:19px"> 178100277</span>
+          </div>
+        </div>
+        <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8" style="padding-right: 0px;">
+          <div class="form-group ">
+            <label style="font-size:19px">مطالبة {{tender_claim_number}} لشهر </label>
+            <span style="font-size:19px"> {{create_date_for_month}}</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" style="text-align: end;">
+          <div class="form-group ">
+            <label style="font-size:19px">الرقم الوطني :</label>
+            <span style="font-size:19px">200162882</span>
+          </div>
+        </div>
+        <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8" style="padding-right: 0px;">
+          <div class="form-group ">
+            <label style="font-size:19px">تاريخ المطالبة : </label>
+            <span style="font-size:19px">{{create_date}}</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="margin-bottom: 15px;">
+        <label style="font-size:19px">اسم العميل : </label>
+        <span style="font-size:19px">السادة شركة مصفاة البترول الأردنية المحترمين</span>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="margin-bottom: 15px;">
+        <label style="font-size:19px">يرجى التكرم بالموافقة على صرف أجور نقل النفط الخام المحمل من مستودعات التحميل في
+          العقبة الى مستودعات التفريغ في الزرقاء حسب الكشوفات المرفقة وذلك للوصولات المسلمة بالمعززات وحسب الخلاصة
+          التالية : </label>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <table class="table is-fullwidth is-striped" style="width: 100% ">
+          <thead>
+            <td style="font-size:8; text-align:center; font-weight:bold; min-width:150px;">العدد الإجمالي</td>
+            <td style="font-size:8; text-align:center; font-weight:bold; min-width: 150px;">الكمية المحملة</td>
+            <td style="font-size:8; text-align:center; font-weight:bold; min-width:150px;">الكمية المفرغة</td>
+            <td style="font-size:8; text-align:center; font-weight:bold; min-width:150px;">سعر الطن</td>
+            <td style="font-size:8; text-align:center; font-weight:bold; min-width:150px;">المجموع</td>
+          </thead>
+          <tbody>
+            <tr class="item" style="padding:0">
+              <td style="text-align: center;">
+                {{total_number}}
+              </td>
+              <td style="text-align: center;">
+                {{loading_weight}}
+              </td>
+              <td style="text-align: center;">
+                {{discharging_weight}}
+              </td>
+              <td style="text-align: center;">
+                {{ton_price}}
+              </td>
+              <td style="text-align: center;">
+                {{total}}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="margin-bottom: 10px;">
+          <label style="font-size:19px">يخصم منه ما يلي : </label>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="margin-bottom:7px">
+          <label style="font-size:19px">إكراميات السائقين : </label>
+          <span style="font-size:19px">{{drivers_tips}}</span>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="margin-bottom:7px">
+          <label style="font-size:19px">بدل تسريب : </label>
+          <span style="font-size:19px">{{submit_waybill}}</span>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="margin-bottom:7px">
+          <label style="font-size:19px">وثيقة النقل : </label>
+          <span style="font-size:19px"> {{waybills}}</span>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="margin-bottom:7px">
+          <label style="font-size:19px">عمولة صرف : </label>
+          <span style="font-size:19px">{{commission}}</span>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="margin-bottom:7px">
+          <label style="font-size:19px">ديزل : </label>
+          <span style="font-size:19px">{{diesel}}</span>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <label style="font-size:19px">غرامات نقص وزن : </label>
+          <span style="font-size:19px">{{lose_weight}}</span>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <label style="font-size:19px">صافي مبلغ المطالبة بعد الخصومات:</label>
+          <span style="font-size:19px;font-weight: 900;"> {{net_amount}}</span>
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+          <div class="form-group ">
+            <label style="font-size:19px">وتفضلوا بقبول فائق الاحترام ..</label>
+            <label style="font-size:19px">شركة مدارج للخدمات اللوجستية</label>
+          </div>
+        </div>
+        <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+        </div>
+      </div>
+    </div>
+  </div>
+
+</html>

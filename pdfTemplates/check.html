@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/jsbarcode/3.6.0/JsBarcode.all.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery.qrcode@1.0.3/jquery.qrcode.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+    integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css?family=Amiri:400,700&amp;subset=arabic" rel="stylesheet">
+  <script src="https://storage.googleapis.com/minagate_config/Tafqeet.js"></script>
+  <script>
+    $(document).ready(function () {
+      let amount = "{{data.[0].tafqeetAmount}}"
+      let currencyValue = "دينار"
+      let tafqeetValue = tafqeet(amount)
+      let date = "{{data.[0].date}}"
+      document.getElementById('dateElement').innerText = date
+      if (Number(amount) % 100 == 0) {
+        currencyValue = "دينار"
+      } else if (tafqeetValue.split(" ")[tafqeetValue.split(" ").length - 1][tafqeetValue.split(" ")[tafqeetValue.split(" ").length - 1].length - 1] == "ة") {
+        currencyValue = "دنانير"
+      } else {
+        currencyValue = "دينار"
+      }
+      if ("{{data.[0].tafqeetAmount}}" && "{{data.[0].tafqeetAmount}}".trim() != "" && "{{data.[0].decemelAmount}}" && "{{data.[0].decemelAmount}}".trim() != "") {
+        document.getElementById("amount_in_text").innerText = " فقط " + tafqeet(amount) + " " + currencyValue + " أردني " + " و " + "{{data.[0].decemelAmount}}" + " فلس " + " لاغير";
+
+      } else if ("{{data.[0].tafqeetAmount}}" && "{{data.[0].tafqeetAmount}}".trim() != "" && "{{data.[0].decemelAmount}}".trim() == "") {
+        document.getElementById("amount_in_text").innerText = " فقط " + tafqeet(amount) + " " + currencyValue + " أردني " + " لاغير";
+      }
+    })
+  </script>
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600%7CRaleway:300,400,500,600,700%7CLato:300,400,400italic,600,700"
+    rel="stylesheet" type="text/css" />
+  <style>
+    body {
+      size: landscape;
+    }
+  </style>
+</head>
+
+<body dir='rtl' style="font-family:Amiri; font-size:19px ">
+  <div class="container">
+    {{#each data}}
+    <div style="width:166mm;height:83mm;margin-top: -9mm;">
+      <div style="display: flex;">
+        <div
+          style="display: inline-block; width: 45mm;height: 10mm;margin-right: 59mm;margin-top: 15mm;margin-bottom:2mm;text-align:center;padding-top:3mm;margin-left: 0px;">
+          <span style="display: inline-block">
+            للمستفيد الأول & co
+          </span>
+        </div>
+        <p style="margin-top: 15mm;margin-right: 14mm; text-align: center;">
+          <span style="width: 7mm; display: inline-block;">
+          </span>
+          <span id='dateElement' style="width:30mm;display: inline-block">
+
+          </span>
+        </p>
+      </div>
+      <p style="margin-right: -1mm;">
+
+        <span style="width: 7mm; display: inline-block;">
+        </span>
+        <span style="width:148mm;display: inline-block;margin-right: 1mm;font-size: 19px;">
+          {{this.name}}
+        </span>
+      </p>
+      <div style="display: flex;margin-right: -1mm;">
+        <div style="margin-right: 3mm; width: 45mm;height: 13mm; display: inline-block;">
+          <div style="height: 4.3mm; display: flex;">
+            <div style="width: 13.5mm;">
+            </div>
+            <div style="width:31mm">
+            </div>
+          </div>
+          <div style="height: 8.7mm; display: flex;">
+            <div style="width: 13.5mm;text-align: center;">
+              <span style="display: inline-block;min-width: 100%;font-size: 19px;margin-top: 1mm;">
+                {{decemelAmount}}
+              </span>
+            </div>
+            <div style="width:31mm;margin-right: 2mm;text-align: center;">
+              <span style="display: inline-block;font-size: 19px;margin-top: 1mm">
+                #{{amount}}#
+              </span>
+            </div>
+          </div>
+        </div>
+        <div style="margin-right: 1mm; display: flex;">
+          <div style="width: 18mm;">
+          </div>
+          <div style="width: 84mm;font-size: 14px;" id="amount_in_text">
+
+          </div>
+        </div>
+      </div>
+    </div>
+    {{/each}}
+  </div>
+</body>
+
+</html>

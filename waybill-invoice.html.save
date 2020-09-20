@@ -1,0 +1,128 @@
+<html>
+
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+        crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Amiri:400,700&amp;subset=arabic" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600%7CRaleway:300,400,500,600,700%7CLato:300,400,400italic,600,700"
+        rel="stylesheet" type="text/css" />
+    <style>
+        .heading {
+            margin-top: 0%;
+        }
+
+        #powered {
+            position: absolute;
+            bottom: 0px;
+        }
+
+        td {
+            font-size: 11
+        }
+
+        .table>tbody>tr>td,
+        .table>tbody>tr>th,
+        .table>tfoot>tr>td,
+        .table>tfoot>tr>th,
+        .table>thead>tr>td,
+        .table>thead>tr>th {
+            padding: 0;
+        }
+
+        #pageFooter {
+            display: table-footer-group;
+        }
+
+        #pageFooter:after {
+            counter-increment: page;
+            content: counter(page);
+        }
+    </style>
+    <script>
+
+        $(document).ready(function () {
+            let body = "{{this.body}}"
+            // $.each(body, function (index, element) {
+            //     $("#tbl-body").append('<tr> <td>' + element.tn + '</td> ');
+            //     $("#tbl-body").append(' <td>' + element.trn + '</td> ');
+            //     $("#tbl-body").append(' <td>' + element.driver + '</td>');
+            //     $("#tbl-body").append(' <td>' + element.wn + '</td> ');
+            //     $("#tbl-body").append('<td>' + element.origin + '</td> ');
+            //     $("#tbl-body").append(' <td>' + element.distination + '</td> ');
+            //     $("#tbl-body").append('<td>' + element.create_date + '</td> </tr>');
+            // }); 
+        })
+    </script>
+
+
+</head>
+
+<body dir='rtl' style="font-family:Amiri;">
+    <div class="container ">
+        <div class="row">
+            <div class="col-md-4 col-sm-4 col-lg-4 ">
+                <img class="col-md-12 col-lg-12 col-sm-12 pull-right" src='http://www.minagate.com/assets/images/logo-small.png' width="20%"
+                />
+            </div>
+            <div class="col-md-3 col-sm-3 col-lg-3 " style="margin-top:2%;font-size:15; font-weight:bold;">
+                <span>
+                    شركة مدارج للخدمات اللوجستيه و إدارة المشاريع
+                </span>
+            </div>
+            <div style="position:absolute; left:-57%; top:1%" class="col-md-4 col-sm-4 col-lg-4 ">
+                <img class="col-md-5 col-lg-5 col-sm-5" src='https://storage.googleapis.com/menagate_photos/header.png' width="18%" />
+            </div>
+        </di
+        <table class="table table-striped ">
+            <!-- <thead>
+                {{$pdf.pageNumber}} / {{$pdf.pages.length}}
+            </thead> -->
+            <tbody id="tbl-body " class="table-body ">
+                <thead>
+                    <td style="width:10%;font-size:13;  font-weight:bold;"> التسلسل</td>
+                    <td style="width:10%;font-size:13;  font-weight:bold;">القاطره</td>
+                    <td style="width:10%;font-size:13;  font-weight:bold;">المقطوره</td>
+                    <td style="width:10%;font-size:13;  font-weight:bold;">السائق</td>
+                    <td style="width:10%;font-size:13;  font-weight:bold;">رقم المستند</td>
+                    <td style="width:10%;font-size:13;  font-weight:bold;">موقع التحميل</td>
+                    <td style="width:10%;font-size:13;  font-weight:bold;">موقع التفريغ</td>
+                    <td style="width:10%;font-size:13;  font-weight:bold;">تاريخ</td>
+                </thead>
+                {{#each this.body}}
+                <tr class="item" style="padding:0">
+                    <td>
+                        {{id}}
+                    </td>
+                    <td>
+                        {{tn}}
+                    </td>
+                    <td>
+                        {{trn}}
+                    </td>
+                    <td>
+                        {{driver}}
+                    </td>
+                    <td>
+                        {{wn}}
+                    </td>
+                    <td>
+                        {{origin}}
+                    </td>
+                    <td>
+                        {{destination}}
+                    </td>
+                    <td>
+                        {{create_date}}
+                    </td>
+                </tr>
+                {{/each}}
+
+            </tbody>
+
+        </table>
+    </div>
+
+</body>
+
+</html>

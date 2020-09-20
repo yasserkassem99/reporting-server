@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://fonts.googleapis.com/css?family=Amiri:400,700&amp;subset=arabic" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/jsbarcode/3.6.0/JsBarcode.all.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.js"
+        integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+    <script src="https://storage.googleapis.com/minagate_config/Tafqeet.js"></script>
+    <title>Document</title>
+    <style>
+        * {
+            direction: rtl;
+            font-family: Amiri;
+            font-size: 1em;
+        }
+
+        header {
+            height: 18vh;
+        }
+
+        .container {
+            height: 100%;
+        }
+
+        .headerdata {
+            display: flex;
+            flex-direction: row;
+            height: 100%;
+        }
+
+        .dataitem {
+            width: 33.333333333%;
+        }
+
+        #pricebox {
+            display: flex;
+            flex-direction: row-reverse;
+            width: 64%;
+            border: solid 1px black;
+            height: 60%;
+            position: relative;
+            left: 21px;
+        }
+
+        .price {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            /* border: solid 1px red; */
+        }
+
+        #companyinfo {
+            height: 100%;
+            display: flex;
+            flex-direction: row;
+        }
+
+        #dateitem {
+            display: flex;
+            flex-direction: row;
+            width: 90%;
+            justify-content: space-between;
+            margin: 5px;
+        }
+
+        .date {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        p {
+            padding: 0;
+            padding-left: 15px;
+            margin: 0;
+        }
+
+        section {
+            height: 58vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            /* align-items: center; */
+            top: 18px;
+            position: relative;
+            border-top: solid 1px rgba(0, 0, 0, 0.1);
+            /* border-bottom: solid 1px rgba(0,0,0,0.1); */
+        }
+
+        .sectiondata {
+            height: 86%;
+            width: 88%;
+            margin-right: 4%;
+        }
+
+        .field1 {
+            display: flex;
+            flex-direction: row;
+            grid-area: "field1";
+            width: 100%;
+            /* height: 20%; */
+        }
+
+        .column2 {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .field2 {
+            display: flex;
+            flex-direction: row;
+            width: 92%;
+            /* justify-content: space-around; */
+        }
+
+        #field3 {
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+            /* justify-content: space-between; */
+        }
+
+        .sectiondata p {
+            font-size: 1.2em;
+        }
+
+        .sectiondata div {
+            margin-bottom: 10px;
+        }
+
+        .notes {
+            width: 100%;
+        }
+
+        .footerdata {
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+            border-top: solid 1px rgba(0, 0, 0, 0.1);
+            height: 18vh;
+        }
+
+        .cell {
+            width: 50%;
+        }
+
+        #two {
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-end;
+            align-items: center;
+
+        }
+
+        .sponsormessage {
+            height: 4vh;
+            font-size: 10px;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-end;
+        }
+    </style>
+    <script>
+
+        checknickels = (value) => {
+            let tempValue = value.toString();
+            let nickels = "";
+            if (tempValue.indexOf(".") !== -1) {
+                let tempArray = tempValue.split(".");
+                tempArray[0] = tafqeet(tempArray[0]);
+                return tempArray;
+            }
+            else {
+                return tafqeet(tempValue);
+            }
+        }
+        $(document).ready(function () {
+            JsBarcode("#barcode", "{{this.id}}", {
+                height: 25
+            });
+            // {{this.trx_template.amount}}
+            let money = checknickels("{{this.trx_template.amount}}");
+            let amount;
+            let nickelsAmount;
+            if (Array.isArray(money)) {
+                amount = money[0];
+                nickelsAmount = money[1];
+                document.getElementById("valueholder").innerText = amount;
+                let nickelElement = document.createElement("p");
+                nickelElement.innerText = `و ${money[1]} فلس`;
+                document.getElementById("field3").appendChild(nickelElement);
+                // document.getElementById("nickels").innerText = `و ${money[1]} فلس`;
+            } else {
+                document.getElementById("valueholder").innerText = money;
+            }
+            let tempMessage = document.createElement("p");
+            tempMessage.innerText = "فقط لا غير";
+            document.getElementById("field3").appendChild(tempMessage);
+        })
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <div class="headerdata">
+                <div class="price dataitem">
+                    <div id="pricebox">
+                        <div
+                            style="border-right: solid 1px black;width: 70%;height: 100%;display:flex;justify-content: center;align-items: center;margin:0;padding: 0;">
+                            <p style="font-size:1em;text-align: center;">{{this.trx_template.amount}}</p>
+                        </div>
+                        <div style="width: 30%;">
+                            <p
+                                style="font-size:1em;text-align: center;height: 100%;padding:0;margin:0;display:flex;justify-content: center;align-items: center;">
+                                دينار</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="companyname dataitem">
+                    <div id="companyinfo">
+                        <div  style="width: 100%;height: 100%;">
+                        <image src="https://storage.googleapis.com/waybill-project.appspot.com/34.jpg" 
+                        style="height: 100%; width: 100%;"/>
+                        </div>
+                    </div>
+                    <p style="align-self: center; text-align: center;"> الاردنية السورية للنقل البري / عربيه مشتركة</p>                                            
+                </div>
+                <div class="date dataitem">
+                    <div id="dateitem">
+                        <p>تاريخ الإنشاء: </p>
+                        <p style="border-bottom: dotted black 1px;">{{this.create_date}}</p>s                        
+                    </div>   
+                    <div id="dateitem">
+                        <p>الفوسفات (الرصيفة-العقبة)</p>
+                    </div>                 
+                </div>
+            </div>
+        </header>
+        <section style="position: relative;top:50px;">
+            <div class="sectiondata">
+                <div class="field1">
+                    <p>ادفعوا بموجب امر صرف رقم</p>
+                    <p style="border-bottom: solid 1px black;">{{this.id}}</p>
+                </div>
+                <div class="column2">
+                    <div class="field2">
+                        <p>لأمر</p>
+                        <p style="border-bottom: solid 1px black;">{{this.trx_template.target_account_name}}</p>
+                        <p>رقم الحساب</p>
+                        <p style="border-bottom: solid 1px black;">{{this.trx_template.target_account}}</p>
+                    </div>
+                </div>
+                <div class="column3">
+                    <div id="field3">
+                        <p>مبلغ</p>
+                        <p id="valueholder" style="border-bottom: solid 1px black;"></p>
+                        <p>دينار</p>
+                        <!-- <p 
+                        style="border-bottom: solid 1px black"
+                        id="nickels"></p> -->
+                        <!-- <p>فقط لا غير </p> -->
+                    </div>
+                </div>
+                <div class="notes">
+                    <p><b>الملاحظات</b></p>
+                    <p>{{this.notes}}</p>
+                </div>
+            </div>
+        </section>
+        <footer>
+            <div class="footerdata">
+                <div class="cell">
+                    <p style="font-size: 1.2em;position:relative;left:-42px;">توقيع المستلم</p>
+                </div>
+                <div id="two" class="cell">
+                    <img style="height:60%" class="barcode" id="barcode" />
+                </div>
+            </div>
+            <div class="sponsormessage">
+                <img style="height: 100%;margin-left:10px" src="http://www.minagate.com/assets/images/logo-small.png" />
+                <p>Powered by</p>
+            </div>
+        </footer>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/jsbarcode/3.6.0/JsBarcode.all.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery.qrcode@1.0.3/jquery.qrcode.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+    integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css?family=Amiri:400,700&amp;subset=arabic" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600%7CRaleway:300,400,500,600,700%7CLato:300,400,400italic,600,700"
+    rel="stylesheet" type="text/css" />
+  <style>
+    .totaValue {
+      font-size: 23px;
+      margin-top: 30px; 
+      margin-bottom: 20px;
+    }
+    span{
+      display: block;
+    }
+  </style>
+</head>
+
+<body dir='rtl' style="font-family:Amiri; font-size:19px;">
+<div class="well" style="background-color: #fff; border: none;">
+<div style="display: flex;justify-content: space-between; align-items: center;">
+<div style="flex: 1; text-align: center;">
+        تاريخ الطباعة: {{print_date}}
+</div>
+<div style="flex: 1; text-align: center;">
+المادة: {{cargo_name}} 
+</div>
+<div style="flex:1;display: flex;justify-content: flex-end;">
+    <img src="https://i.ibb.co/PrnyQsm/logo-small.png" height="100px" width="200px"/>
+</div>
+</div>
+  <div class="row">
+    <div class="col-xs-12 text-center">
+      <h2> شركة مدارج للخدمات اللوجستية </h2>
+    </div>
+  </div>
+      <div style="margin-bottom: 8px;" class="row">
+        <div class="col-xs-12 text-center">
+          {{#each titleData}}
+          <p style="font-size: 23px;">كشف اجور النقل /
+            {{company_name}} عن المطالبة رقم {{ref}}</p>
+            {{/each}}
+        </div>
+      </div>
+  {{# each totalData}}
+  <div  class="row">
+    <div class="col-xs-12">
+
+        <div style="text-align: end;" class="col-xs-2">
+
+      <span>
+        صافي المطالبة
+      </span>
+      <span>
+        {{totalAmount}}
+      </span>
+        </div>
+
+        <div style="text-align: end;" class="col-xs-2">
+            <span>
+              مجموع الغرامات
+            </span>
+            <span>
+              {{totalFine}}
+            </span>
+          </div>
+        <div style="text-align: end;" class="col-xs-2">
+          <span>
+            مجموع الاجور
+          </span>
+          <span>
+            {{totalWages}}
+          </span>
+        </div>
+        <div style="text-align: end;" class="col-xs-2">
+            <span>
+              مجموع اوزان التفريغ
+            </span>
+            <span>
+              {{totalDischargeWeight}}
+            </span>
+          </div>
+        <div style="text-align: end;"  class="col-xs-2">
+            <span> مجموع اوزان التحميل</span>
+            <span>{{totalLoadingWeight}}</span>
+          </div>
+        <div style="text-align: center;" class="col-xs-2">
+            <span>عدد المستندات</span>
+            <span>{{totalWaybillNumber}}</span>
+          </div>
+    </div>
+    <div class="col-xs-1">
+    </div>
+  </div>
+  {{/each}}
+  <div style="width: 100%; justify-content: center;display: flex;">
+    <div style="width: 100%; padding-right: 2.2%;">
+      <table style=" margin-left: auto;margin-right: auto; width: 1400px;">
+        <thead style="border: 1px solid #ccc;">
+            <td style="font-size:20px;padding:5px;border-left: 1px solid #ccc;text-align: center;">#</td>
+          <td style="font-size:20px;padding:5px;border-left: 1px solid #ccc;text-align: center;">الوجهة</td>
+          <td style="font-size:20px;padding:5px;border-left: 1px solid #ccc;text-align: center;">البوليصة</td>
+          <td style="font-size:20px;padding:5px;border-left: 1px solid #ccc;text-align: center;">الشاحنة</td>
+          <td style="font-size:20px;padding:5px;border-left: 1px solid #ccc;text-align: center;">وزن التحميل</td>
+          <td style="font-size:20px;padding:5px;border-left: 1px solid #ccc;text-align: center;">تاريخ التحميل</td>
+          <td style="font-size:20px;padding:5px;border-left: 1px solid #ccc;text-align: center;">وزن التفريغ</td>
+          <td style="font-size:20px;padding:5px;border-left: 1px solid #ccc;text-align: center;">تاريخ التفريغ</td>
+          <td style="font-size:20px;padding:5px;border-left: 1px solid #ccc;text-align: center;">الاجور الكلية</td>
+          <td style="font-size:20px;padding:5px;border-left: 1px solid #ccc;text-align: center;">غرامة النقص</td>
+          <td style="font-size:20px;padding:5px;border-left: 1px solid #ccc;text-align: center;">النقص</td>
+          <td style="font-size:20px;padding:5px;border-left: 1px solid #ccc;text-align: center;">سعر الطن</td>
+          <td style="font-size:20px;padding:5px">المبلغ الصافي</td>
+        </thead>
+        <tbody>
+          {{#each data}}
+          <tr style="border: 1px solid #ccc;">
+            <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">
+                {{addOne @index}}
+            </td>
+            <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">
+              {{distination_name}}</td>
+            <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">
+              {{ref_num}}</td>
+            <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">{{tn}}</td>
+            <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">
+                {{claim_loading_weight}}</td>
+            <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">
+              {{claim_loading_date}}</td>
+              <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">
+                {{claim_discharge_weight}}</td>
+            <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">
+              {{claim_discharge_date}}</td>
+              <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">
+                {{base_amount}}</td>
+                <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">{{loss_fine}}
+                </td>
+            <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">
+              {{loss_in_kg}}
+            </td>
+            <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">
+              {{wage_per_ton}}
+            </td>
+            <td style="text-align: center;">{{net_amount}}</td>
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+</body>
+
+</html>

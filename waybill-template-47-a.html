@@ -1,0 +1,339 @@
+<html>
+
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/jsbarcode/3.6.0/JsBarcode.all.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery.qrcode@1.0.3/jquery.qrcode.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+        crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Amiri:400,700&amp;subset=arabic" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600%7CRaleway:300,400,500,600,700%7CLato:300,400,400italic,600,700"
+        rel="stylesheet" type="text/css" />
+    <style>
+        /* .container {
+            font-family: 'Tajawal', sans-serif;
+
+        } */
+
+        .page-break {
+            display: block;
+            page-break-before: always;
+        }
+
+        .heading {
+            margin-bottom: 50px;
+            margin-top: 0%;
+        }
+
+        .barcode {
+            /* margin-left: 0%; */
+            position: absolute;
+            top: 0px;
+            left: 20px;
+        }
+
+        .QR {
+            /* margin-left: 0%; */
+            position: absolute;
+            top: -0px;
+            left: 0px;
+        }
+
+
+        .form-group {
+            padding-right: 11px !important;
+            padding-top: 0px !important;
+            font-size: 16px;
+        }
+
+
+        #powered {
+            position: absolute;
+            left: 20px;
+           bottom: 23px;
+        }
+
+        #SysDate {
+            position: absolute;
+            left: 20px;
+    bottom: 5px;
+        }
+
+        .title {
+            position: absolute;
+            right: 50%;
+        }
+        .well{
+            margin-bottom: 12px
+        }
+    </style>
+
+    <script>
+        $(document).ready(function () {
+            //to change the condition change the value of the location_id
+            let location_id = "{{this.negotiable_instructios.route.destination.id}}"
+
+            if (parseInt(location_id) === 9100003200) {
+                $("#noLocation").hide()
+                $("#no-location-msg").append('<span style="height:100px">الرجاء تحديد الوجهة المطلوبه</span>');
+                $("#no-location-msg").css('margin', '300px')
+                $("#SysDate").append('<span>' + new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate() + ' ' + new Date().getHours() + ':' + new Date().getMinutes() + '</span>');
+            }
+
+            else {
+                JsBarcode("#barcode", "{{this.wn}}", {
+                    height: 25
+                });
+                // let temp = JSON.stringify("{{this}}")
+                // console.log(temp)
+                let temp = "اسم المخلص:{{this.cargo.[0].consigner.ca.name}}\n\n "
+                temp += "اسم شركة النقل:{{this.carrier.[0].tc.name}}\n \n"
+                temp += "اسم مالك الشاحنه:{{this.carrier.[0].truck_owner.name}}\n \n"
+                temp += " رقم الشاحنه :{{this.carrier.[0].truck.tn}}\n \n"
+                temp += "موقع التحميل:{{this.negotiable_instructios.route.origin.name}}\n \n"
+                temp += "  {{this.cargo.[0].weights.loading.gross_weight.weight}} معلومات التحميل: وزن القائم]\n \n"
+                temp += "  {{this.cargo.[0].weights.loading.tare_weight.weight}} معلومات التحميل: وزن الفارغ] \n \n"
+                temp += "  {{this.cargo.[0].weights.loading.net_weight.weight}} معلومات التحميل: وزن الصافي ] \n \n"
+
+
+                $("#QR").append('<img src="https://chart.googleapis.com/chart?cht=qr&chl=' + temp + '&chs=180x180&chld=L|0" class="qr-code" width="180">');
+                $("#loading-weight").append('<span>' + "{{this.cargo.[0].weights.loading.gross_weight.weight}}".replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '</span>');
+                $("#loading-tareweight").append('<span>' + " {{this.cargo.[0].weights.loading.tare_weight.weight}}".replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '</span>');
+                $("#loading-netweight").append('<span>' + "{{this.cargo.[0].weights.loading.net_weight}}".replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '</span>');
+
+
+                $("#SysDate").append('<span>' + new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate() + ' ' + new Date().getHours() + ':' + new Date().getMinutes() + '</span>');
+            }
+
+        });
+
+    </script>
+</head>
+
+
+<body dir='rtl' style="font-family:Amiri; font-size:14px">
+    <div class="container ">
+
+        <div class="heading row" style="padding-bottom:10px">
+            <div class="col-md-12 col-sm-12 col-lg-12">
+                <div style="width:150px; height:50px">
+                    <img class="col-md-4 col-lg-4 col-sm-4 pull-right" src="https://firebasestorage.googleapis.com/v0/b/waybill-project.appspot.com/o/179c8ce5-83b2-43ad-a9fc-bd02ef1a8289.png?alt=media&token=81eb3526-8dd7-4e84-8231-6f95e4b6082b"
+                         width="100%" /> </div>
+                <label style="margin-top:1%; font-weight:bold;font-size: 19px" class="col-md-4 col-lg-4 col-sm-4 pull-right"
+                >المقايضة للنقل والاستثمار
+                    <br>
+                    {{this.title}}
+                </label>
+
+
+                <div class="QR" id="QR">
+
+                </div>
+
+            </div>
+        </div>
+        <div id="no-location-msg" style="text-align:center"></div>
+        <div id="noLocation">
+
+            <div class="well">
+                <fieldset>
+                    <div class="col-md-6 col-sm-6 col-xs-6 " style="float:right">
+
+
+                        <div class="form-group ">
+                            <label> اسم شركة النقل : </label>
+
+                            <span>{{this.carrier.[0].tc.name}}</span>
+                        </div>
+                        <div class="form-group ">
+                            <label> اسم مالك البضاعه : </label>
+
+                            <span> {{this.cargo.[0].consigner.cargo_owner.name}}</span>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-xs-6 " style="float:right">
+                        <div class="form-group ">
+                            <label> رقم الشاحنه : </label>
+                            <span>{{this.carrier.[0].truck.tn}} / {{this.carrier.[0].trailer.tn}}</span>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label> نوع الماده : </label>
+                            <span>{{this.cargo.[0].name}}</span>
+                        </div>
+                    </div>
+                </fieldset>
+
+            </div>
+                    <div class="well">
+                            <fieldset>
+
+                    <div class="col-md-12 col-sm-12 col-xs-12 " style="float:right">
+                        <div class="form-group">
+                            <label> اسم السائق : </label>
+                            <span> {{this.carrier.[0].driver.name}}({{this.carrier.[0].driver.phone}})</span>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-sm-12 col-xs-12 " style="float:right">
+                        <div class="form-group ">
+                            <label> اسم مالك الشاحنه : </label>
+
+                            <span> {{this.carrier.[0].truck_owner.name}}</span>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-sm-12 col-xs-12 " style="float:right">
+                        <div class="form-group ">
+                            <label> اسم المخلص : </label>
+                            <span> {{this.cargo.[0].consigner.ca.name}}</span>
+                        </div>
+                    </div>
+
+                </fieldset>
+
+            </div>
+
+
+
+            <div class="well">
+                <fieldset>
+                    <div class="col-md-6 col-sm-6 col-xs-6">
+                        <div class="form-group ">
+                            <label> موقع التفريغ : </label>
+                            <span>{{this.negotiable_instructios.route.destination.name}}</span>
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-6 col-sm-6 col-xs-6">
+                        <div class="row">
+
+                            <div class="form-group ">
+                                <label> موقع التحميل : </label>
+
+                                <span> {{this.negotiable_instructios.route.origin.name}}</span>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </fieldset>
+            </div>
+
+
+            <!-- <div class="well">
+                <fieldset>
+                    <div class="row">
+                        <div class="col-md-6 col-sm-6 col-xs-6">
+                            <div class="row">
+
+                                <div class="form-group ">
+                                    <label> شروط خاصه : </label>
+
+                                    <span> {{this.negotiable_instructios.special.remarks}}</span>
+                                </div>
+
+                            </div>
+                            <div class="row">
+
+                                <div class="form-group ">
+                                    <label> شروط التأمين : </label>
+
+                                    <span> {{this.negotiable_instructios.insurance.remarks}}</span>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-xs-6">
+                            <div class="row">
+
+                                <div class="form-group ">
+                                    <label> شروط الشحن : </label>
+
+                                    <span> {{this.negotiable_instructios.freight.remarks}}</span>
+                                </div>
+
+                            </div>
+                            <div class="row">
+
+                                <div class="form-group ">
+                                    <label> شروط خطره : </label>
+
+                                    <span> {{this.negotiable_instructios.dangerous_goods.remarks}}</span>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+
+            </div> -->
+
+            <div class="well">
+                <h5 style=" font-weight:normal"> معلومات التحميل</h5>
+                <fieldset>
+                    <div class="row">
+                        <div class="col-md-4 col-sm-4 col-xs-4">
+
+                            <div class="form-group ">
+                                <label> الوزن القائم : </label>
+
+                                <span id="loading-weight"></span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 col-sm-4 col-xs-4">
+
+
+                            <div class="form-group ">
+                                <label> الوزن الفارغ : </label>
+
+                                <span id="loading-tareweight"></span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 col-sm-4 col-xs-4">
+
+                            <div class="form-group ">
+                                <label> الوزن الصافي : </label>
+
+                                <span id="loading-netweight"></span>
+                            </div>
+                        </div>
+
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+
+        <div class="">
+            <fieldset>
+                <div class="col-md-3 col-sm-3 col-xs-3" style="padding-right:35px;">
+                    <svg class="barcode" id="barcode"></svg>
+                </div>
+                <div class="col-md-9 col-sm-9 col-xs-9">
+                    <label> ختم اﻹستلام</label>
+
+                </div>
+            </fieldset>
+        </div>
+
+
+        <footer class="">
+            <div id="powered">
+                <img src='http://www.minagate.com/assets/images/logo-small.png' width="100px" /> Powered By
+            </div>
+
+            <div id="SysDate">
+            </div>
+
+            <!-- <span style="color:#97c667;  font-family: 'monospace'; font-weight: 'bold'; margin-left: '-2px'; font-size: 'inherit';">Minagate</span> -->
+        </footer>
+
+    </div>
+
+</body>
+
+</body>
+
+</html>

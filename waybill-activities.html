@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <link href="https://fonts.googleapis.com/css?family=Amiri:400,700&amp;subset=arabic" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/jsbarcode/3.6.0/JsBarcode.all.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.js"
+        integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+    <script src="https://storage.googleapis.com/minagate_config/Tafqeet.js"></script>
+    <title>Document</title>
+    <style>
+        @page {
+            size: landscape;
+        }
+
+        body {
+            direction: rtl;
+            font-family: Amiri;
+            font-size: 1em;
+        }
+
+        p {
+            padding: 4px !important;
+        }
+
+        .container {
+            height: 100%;
+        }
+
+
+        p {
+            padding: 0;
+            padding-left: 15px;
+            margin: 0;
+        }
+
+        section {
+            display: flex;
+            top: 15;
+            flex-direction: column;
+        }
+
+
+        .footerdata {
+            display: flex;
+            flex-direction: row;
+        }
+
+
+        #two {
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-end;
+            align-items: center;
+            width: -webkit-fill-available
+        }
+
+        .sponsormessage {
+            font-size: 13px;
+            width: 30%;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-end;
+        }
+
+        footer {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            /* Footer height */
+        }
+
+    </style>
+    <script>
+        $(document).ready(function () {
+            JsBarcode("#barcode", "{{this.wn}}", {
+                height: 25
+            });
+        })
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <div style="display: flex;flex-direction: row;">
+                <div style="width:100%;margin-right: 10px;font-weight: bolder ">
+                    <div style="margin:0;padding: 0;">
+                        <p style="font-size:22px;text-align: center;">تقرير الحركات للمستند : {{this.wn}}
+                            ({{this.status}}) </p>
+                    </div>
+                </div>
+
+            </div>
+        </header>
+        <section>
+            <div class="row" style="margin-top: 20px; margin-right: 40px">
+
+                <table class="table table-bordered">
+                    <tbody id="tbl-body " class="table-body ">
+                        <thead>
+                            <td style="width:35%;font-size:20px;  font-weight:bold;text-align: right">اسم الحركة</td>
+                            <td style="width:30%;font-size:20px;  font-weight:bold;text-align: right">الملاحظات</td>
+                            <td style="width:30%;font-size:20px;  font-weight:bold;text-align: center">التاريخ</td>
+                            <td style="width:10%;font-size:20px;  font-weight:bold;text-align: center">بواسطة</td>
+
+                        </thead>
+                        {{#each this.activity}}
+                        <tr class="item" style="padding:0;">
+                            <td style="text-align: right;font-size:15px; border-bottom:0.5px solid rgb(204, 204, 204)">
+                                {{activity_title}}
+                            </td>
+                            <td style="text-align: right;font-size:15px; border-bottom:0.5px solid rgb(204, 204, 204)">
+                                {{activity_details}}
+                            </td>
+                            <td style="text-align: center;font-size:15px; border-bottom:0.5px solid rgb(204, 204, 204)">
+                                {{activity_date}}
+                            </td>
+                            <td style="text-align: center;font-size:15px; border-bottom:0.5px solid rgb(204, 204, 204)">
+                                {{user_id}}
+                            </td>
+                        </tr>
+                        {{/each}}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+            <!-- <div style="flex-direction: row;display: flex">
+                <div style="width: 40%;border: solid 0.5px black; ">
+                    <div style="display: flex;flex-direction: row-reverse;">
+                        <div style="width: 70%; border-right: solid 0.5px black">
+                            <p style="font-size:1em;text-align: center;">{{this.id}}</p>
+                        </div>
+                        <div style="width: 40%">
+                            <p style=" font-size:1em;  text-align: center; "> رقم سند القبض</p>
+                        </div>
+                    </div>
+                    <div style="display: flex;flex-direction: row-reverse;border-top: solid 0.5px black; ">
+                        <div style="width: 70%; border-right: solid 0.5px black; ">
+                            <p style="font-size:1em;text-align: center;">{{this.create_date}}</p>
+                        </div>
+                        <div style="width: 40%;">
+                            <p style=" font-size:1em;  text-align: center; ">التاريخ</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="width: 20%;text-align: center;font-size: 22px ">
+                    سند قبض
+                </div>
+
+                <div style="width: 40%;border: solid 0.5px black; ">
+                    <div style="width: 100%; text-align: center ">
+                        <p>المبلغ</p>
+                    </div>
+                    <div style="display: flex;flex-direction: row-reverse;border-top: solid 0.5px black; ">
+                        <div style="width: 50%; border-right: solid 0.5px black; ">
+                            <p style="font-size:1em;text-align: center;" id="amount"></p>
+                        </div>
+                        <div style="width: 50%;">
+                            <p style=" font-size:1em;  text-align: center; " id="nickels"></p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div style="width: 100%;border: solid 0.5px black; margin-top: 35px; ">
+                <div style="display: flex;flex-direction: row-reverse;">
+                    <div style="width: 75%; border-right: solid 0.5px black;">
+                        <p style="font-size:1em;text-align: center;">الشركة الاردنية السورية للنقل البري</p>
+                    </div>
+                    <div style="width: 25%;">
+                        <p style=" font-size:1em;  text-align: center; ">استلمنا من السادة </p>
+                    </div>
+                </div>
+
+                <div style="display: flex;flex-direction: row-reverse;border-top: solid 0.5px black; ">
+                    <div style="width: 25%; border-right: solid 0.5px black;">
+                        <p style="font-size:1em;text-align: center;">نقدا</p>
+                    </div>
+                    <div style="width: 50%;border-right: solid 0.5px black">
+                        <p style=" font-size:1em;  text-align: center; "><span id="valueholder"></span><span
+                                id="nickelsTafqeet"></span> </p>
+                    </div>
+                    <div style="width: 25%;">
+                        <p style="font-size:1em;text-align: center;">مبلغ و قدره</p>
+                    </div>
+                </div>
+
+                <div style="display: flex;flex-direction: row-reverse;border-top: solid 0.5px black; ">
+                    <div style="width:75%; border-right: solid 0.5px black;">
+                        <p style="font-size:1em;text-align: center;">{{this.notes}}</p>
+                    </div>
+                    <div style="width:25%;">
+                        <p style="font-size:1em;text-align: center;">وذلك عن </p>
+                    </div>
+                </div>
+
+
+
+            </div>
+
+            <div style="width: 100%;border: solid 0.5px black; margin-top: 35px; ">
+
+                <div style="display: flex;flex-direction: row-reverse;">
+
+                    <div style="width: 30%; border-right: solid 0.5px black;">
+                        <p style="font-size:1em;text-align: center;"></p>
+                    </div>
+                    <div style="width: 10%; border-right: solid 0.5px black;">
+                        <p style="font-size:1em;text-align: center;">التوقيع</p>
+                    </div>
+                    <div style="width: 35%; border-right: solid 0.5px black;">
+                        <p style="font-size:1em;text-align: center;"> {{this.trx_template.target_account_name}} </p>
+                    </div>
+                    <div style="width: 25%;">
+                        <p style=" font-size:1em;  text-align: center; ">المالك </p>
+                    </div>
+                </div>
+
+                <div style="display: flex;flex-direction: row-reverse;border-top: solid 0.5px black">
+
+                    <div style="width: 30%; border-right: solid 0.5px black;">
+                        <p style="font-size:1em;text-align: center;"></p>
+                    </div>
+                    <div style="width: 10%; border-right: solid 0.5px black;">
+                        <p style="font-size:1em;text-align: center;">التوقيع</p>
+                    </div>
+                    <div style="width: 35%; border-right: solid 0.5px black;">
+                        <p style="font-size:1em;text-align: center;"></p>
+                    </div>
+                    <div style="width: 25%;">
+                        <p style=" font-size:1em;  text-align: center; ">السائق </p>
+                    </div>
+                </div>
+
+            </div> -->
+
+        </section>
+        <footer>
+            <div class="footerdata">
+                <div class="sponsormessage">
+                    <img style="margin-left:10px; 
+                    width: 100px;
+                    height: 30px;" src="http://www.minagate.com/assets/images/logo-small.png" />
+                    <p>Powered by</p>
+                </div>
+                <div id="two">
+                    <img style="height:60px" class="barcode" id="barcode" />
+                </div>
+            </div>
+
+        </footer>
+    </div>
+</body>
+
+</html>

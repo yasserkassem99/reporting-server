@@ -1,0 +1,85 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>PDF REPORT MINAGATE</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css" />
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Cairo&display=swap" rel="stylesheet" />
+    <style>
+        body {
+            font-family: "Cairo", sans-serif;
+            padding: 2em;
+        }
+
+        td {
+            font-size: 10pt;
+            text-align: center;
+        }
+    </style>
+</head>
+<body dir="rtl">
+    <main class="container">
+        {{#each data}}
+        <div>
+            <div class="columns is-full">
+                <div class="column is-four-fifths">
+                    <h3 class="title is-4">{{name}}</h3>
+                </div>
+                <div class="column">
+                    <img src="https://www.minagate.com/assets/images/logo-small.png" />
+                    <p class="column">{{create_date}}</p>
+                </div>
+            </div>
+            <h3 class="subtitle is-4">الأرساليات المقدمة:</h3>
+            <table class="table is-fullwidth is-striped" style="width: 100% ">
+                <tbody>
+                    <thead>
+                        <td style="font-size:8; text-align:center; font-weight:bold; min-width:150px;">#</td>
+                        <td style="font-size:8; text-align:center; font-weight:bold; min-width: 150px;">رقم الإرسالية
+                        </td>
+                        <td style="font-size:8; text-align:center; font-weight:bold; min-width:150px;">التسلسل</td>
+                        <td style="font-size:8; text-align:center; font-weight:bold; min-width:150px;">الشاحنة</td>
+                        <td style="font-size:8;width:250px;  text-align:center; font-weight:bold; min-width:150px;">
+                            السائق</td>
+                        <td style="font-size:8; text-align:center; font-weight:bold; min-width: 150px;">الهاتف</td>
+                        <td style="font-size:10;width:200px; text-align:center; font-weight:bold; min-width: 150px;">
+                            ملاحظات</td>
+                    </thead>
+                    {{#each waybills}}
+                    <tr class="item" style="padding:0">
+                        <td style="text-align: center;">
+                            {{addOne @index}}
+                        </td>
+                        <td style="text-align: center;">
+                            {{wn}}
+                        </td>
+                        <td style="text-align: center;">
+                            {{serial}}
+                        </td>
+                        <td style="text-align: center;">
+                            {{tn}}+{{trn}}
+                        </td>
+                        <td style="font-size:10px; text-align: center;">
+                            {{driver_name}}
+                        </td>
+                        <td style="direction: ltr; text-align: center;">
+                            {{driver_phone}}
+                        </td>
+                        <td style="text-align: center;">
+
+                        </td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+        <div style="page-break-before: always;"></div>
+        {{/each}}
+    </main>
+</body>
+</html>

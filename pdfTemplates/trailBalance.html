@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>PDF REPORT MINAGATE</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css" />
+  <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+  <link href="https://fonts.googleapis.com/css?family=Cairo&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      font-family: "Cairo", sans-serif;
+      padding: 2em;
+    }
+
+    td {
+      font-size: 10pt;
+      text-align: center;
+    }
+    #extra_head{
+      background-color: #eee !important;
+    }
+  </style>
+</head>
+
+<body dir="rtl">
+  <main class="container">
+    <div>
+      <div style="margin-bottom: 10px; display: flex;justify-content: space-between; align-items: center;">
+        <div>
+          <p style="font-size: 15px; font-weight: bold;">{{companyName}}</p>
+          <p>
+          ميزان المراجعة لغاية تاريخ: {{dateRe}}
+          </p>
+        </div>
+        <div>
+          <img id='image1'  style="max-height: 100px;"/>
+          <span id='imagecontent' style="display: none;">{{logo}}</span>
+        </div>
+      </div>
+      {{#each category}}
+      <table class="table is-fullwidth is-striped" style="width: 100%; margin-top: 30px;">
+        <tbody>
+          {{#each sub_category}}
+          <thead class="has-text-white">
+            <td colspan="3"  style="font-size:8; text-align:center; font-weight:bold; min-width: 150px;">
+              {{account_type}}
+            </td>
+          </thead>
+          {{#each account_type_data}}
+          <tr class="item" style="padding:0">
+            <td style="text-align: center; font-size: 10px; color: black;min-width:200px">
+              {{name}}
+            </td>
+            <td style="text-align: center;">
+              {{formated_balance}}
+            </td>
+            <td style="text-align: center;">
+                {{currency}}
+            </td>
+          </tr>
+          
+          {{/each}}
+          <tr class="item" style="padding:0">
+            <td style="text-align: center; font-weight: bold; font-size: 12px; color: black;min-width:200px;border-bottom: none;">
+              المجموع
+            </td>
+            <td  style="text-align: center;font-weight: bold;border-bottom: none;">
+              {{formated_total_for_sub_category}}
+            </td>
+          </tr>
+          {{/each}}
+          <tr class="item" style="padding:10px 0;">
+          </tr>
+          <tr class="item" style="border: 1px solid #000;padding:5px 0;">
+            <td   style="text-align: center; font-weight: bold; font-size: 12px; color: black;min-width:200px">
+              المجموع الكلي
+            </td>
+            <td  style="text-align: center;font-weight: bold;">
+              {{total_for_category}}
+            </td>
+            <td  style="text-align: center;font-weight: bold;">
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <hr style="background-color: #000;height: 5px;"/>
+      {{/each}}
+    </div>
+  </main>
+  <script>
+    const img = document.getElementById('image1')
+    const imgContent = document.getElementById('imagecontent').innerText
+    img.setAttribute('src',imgContent)
+  </script>
+</body>
+</html>

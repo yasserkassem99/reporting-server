@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/jsbarcode/3.6.0/JsBarcode.all.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery.qrcode@1.0.3/jquery.qrcode.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+    integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css?family=Amiri:400,700&amp;subset=arabic" rel="stylesheet">
+  <script src="https://storage.googleapis.com/minagate_config/Tafqeet.js"></script>
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600%7CRaleway:300,400,500,600,700%7CLato:300,400,400italic,600,700"
+    rel="stylesheet" type="text/css" />
+  <script>
+    $(document).ready(function () {
+      let amount = "{{data.[0].amountReal}}"
+
+      let decemelAmount = "{{data.[0].decemelAmount}}"
+      let currencyValue = "دينار اردني"
+      if ("{{data.[0].decemelAmount}}" != '0') {
+        document.getElementById("amount_in_text").innerText = "فقط" + "  " + tafqeet(amount) + " " + currencyValue + " و " + tafqeet(decemelAmount) + " فلس " + " " + "لا غير"
+      } else {
+        document.getElementById("amount_in_text").innerText = "فقط" + " " + tafqeet(amount) + " " + currencyValue + " " + "لا غير"
+      }
+
+      let temp = "{{this.data.[0].encrepted_id}}"
+      JsBarcode("#barcode",temp, {
+                height: 25
+            });
+      // $("#QR").append('<img src="https://chart.googleapis.com/chart?cht=qr&chl=' + temp + '&chs=200x200&chld=L|0" class="qr-code" width="180">');
+
+    })
+  </script>
+</head>
+
+<body dir='rtl' style="font-family:Amiri; font-size:19px ">
+  <div class="container">
+    {{#each data}}
+    <div class="col-md-12 col-sm-12 col-lg-12">
+      <div class="col-md-12 col-sm-12 col-lg-12">
+        <div class="col-md-6 col-lg-6 col-sm-6 pull-right style" style=" min-height:70px;font-size: 19px;color: black;"
+          id="imgHandler">
+          <img src="/home/oday/Downloads/reporting-server/logo-small.png" height="100px" width="100px" />
+        </div>
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" style="max-width: 150px;max-height: 150px;">
+          <div id="two" class="cell">
+            <img style="height:100%" class="barcode" id="barcode" />
+        </div>
+        </div>
+      </div>
+      <div class="col-md-12 col-sm-12 col-lg-12" style="margin-top: 20%;">
+        <div class="col-md-12 col-sm-12 col-lg-12">
+          <div class="form-group">
+            <label style="font-size:27px;">امر الصرف : </label>
+            <span style="font-size:27px">{{id}}</span>
+          </div>
+        </div>
+        <div class="col-md-12 col-sm-12 col-lg-12">
+          <div class="form-group">
+            <label style="font-size:27px;">المبلغ : </label>
+            <span style="font-size:27px">{{amountReal}}.{{decemelAmount}}</span>
+          </div>
+        </div>
+        <div class="col-md-12 col-sm-12 col-lg-12">
+          <div class="form-group" id="amount_in_text" style="font-size: 27px;">
+
+          </div>
+        </div>
+        <div class="col-md-12 col-sm-12 col-lg-12">
+          <div class="form-group">
+            <label style="font-size:27px;">المستفيد : </label>
+            <span style="font-size:27px">({{trx_template.target_account}}) {{trx_template.target_account_name}}</span>
+          </div>
+        </div>
+        <div class="col-md-12 col-sm-12 col-lg-12">
+          <div class="form-group">
+            <label style="font-size:27px;">وذلك عن : </label>
+            <span style="font-size:27px">{{notes}}</span>
+          </div>
+        </div>
+        <div class="col-md-12 col-sm-12 col-lg-12">
+          <div class="form-group">
+            <label style="font-size:27px;">التاريخ : </label>
+            <span style="font-size:27px">{{currentDate}}</span>
+          </div>
+        </div>
+        <div class="col-md-12 col-sm-12 col-lg-12" style="margin-top: 230px;">
+          <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+            <div class="form-group">
+              <label style="font-size:27px;">التوقيع : </label>
+            </div>
+          </div>
+          <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+            <div class="form-group">
+              <label style="font-size:27px;">الاسم : </label>
+            </div>
+          </div>
+        </div>
+        {{/each}}
+
+      </div>
+</body>
+
+</html>

@@ -1,0 +1,64 @@
+<html>
+
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/jsbarcode/3.6.0/JsBarcode.all.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery.qrcode@1.0.3/jquery.qrcode.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+        crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Amiri:400,700&amp;subset=arabic" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600%7CRaleway:300,400,500,600,700%7CLato:300,400,400italic,600,700"
+        rel="stylesheet" type="text/css" />
+    <style>
+       
+    </style>
+
+    <script>
+
+        $(document).ready(function () {
+            //to change the condition change the value of the location_id
+            let location_id = "{{this.negotiable_instructios.route.destination.id}}"
+
+            if (parseInt(location_id) === 9100003200) {
+                $("#noLocation").hide()
+                $("#no-location-msg").append('<span style="height:100px">الرجاء تحديد الوجهة المطلوبه</span>');
+                $("#no-location-msg").css('margin', '300px')
+                $("#SysDate").append('<span>' + new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate() + ' ' + new Date().getHours() + ':' + new Date().getMinutes() + '</span>');
+            }
+
+            else {
+                JsBarcode("#barcode", "{{this.wn}}", {
+                    height: 25
+                });
+                // let temp = JSON.stringify("{{this}}")
+                // console.log(temp)
+                let temp = " المخلص:{{this.cargo.[0].consigner.ca.name}}"
+                temp += " شركة:{{this.carrier.[0].tc.name}}"
+                temp += " مالك:{{this.carrier.[0].truck_owner.name}}"
+                temp += " الشاحنه:{{this.carrier.[0].truck.tn}}"
+                temp += " التحميل:{{this.negotiable_instructios.route.origin.name}}"
+                temp += " {{this.cargo.[0].weights.loading.net_weight.weight}} م التحميل: وزن القائم"
+
+
+                $("#QR").append('<img src="https://chart.googleapis.com/chart?cht=qr&chl=' + temp + '&chs=180x180&chld=L|0" class="qr-code" width="180">');
+                $("#loading-weight").append('<span>' + "{{this.cargo.[0].weights.loading.gross_weight.weight}}".replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '</span>');
+                $("#loading-tareweight").append('<span>' + " {{this.cargo.[0].weights.loading.tare_weight.weight}}".replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '</span>');
+                $("#loading-netweight").append('<span>' + "{{this.cargo.[0].weights.loading.net_weight}}".replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '</span>');
+
+
+                $("#SysDate").append('<span>' + new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate() + ' ' + new Date().getHours() + ':' + new Date().getMinutes() + '</span>');
+            }
+
+        });
+
+    </script>
+</head>
+
+
+<body dir='rtl' style="font-family:Amiri; font-size:17px ">
+    <div class="container ">
+ 
+    </div>
+</body>
+
+</html>
