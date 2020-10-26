@@ -192,7 +192,9 @@ app.post('/generatePdfReport', function (req, res) {
           before_fraction:req.body.before_fraction,
           after_fraction:req.body.after_fraction,
           driver_nn:req.body.driver_nn,
-          tn:req.body.truckNumber
+          tn:req.body.truckNumber,
+          payment_method: req.body.payment_method,
+          from_account_name:req.body.from_account_name
          },
       })
       .then(resp => {

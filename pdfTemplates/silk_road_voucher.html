@@ -48,11 +48,12 @@
                 <img src='https://i.ibb.co/syS6KLM/silk-road-logo.png' style="max-height: 100px;"/>
             </div>
             <div style="display: flex;">
-                <div style="flex: 1;">
+                <div style="flex: 1;display: flex;">
                 <p style="font-size: 20px;">التاريخ: {{voucher_date}}</p>
                 </div>
                 <div style="flex: 1;text-align: center;">
-                <h3 style="margin: 0;">سند صرف</h3>
+                <h3 style="margin: 0;margin-bottom: 5px;">سند صرف</h3>
+                <p style="font-size: 12px;"> الحساب:{{from_account_name}}</p>
                 </div>
                 <div style="flex: 1;text-align: end;">
                 <img id="barcode" style="max-height: 90px;"/>
@@ -100,7 +101,13 @@
                 });
                 let hashedVoucher = md5('{{voucher_id}}')
 
-                $("#QR").attr('src',`https://chart.googleapis.com/chart?cht=qr&chl=${hashedVoucher}&chs=200x200&chld=L|0`)
+                let paymentMethod = '{{payment_method}}'
+                if(paymentMethod ==='CASH' || !paymentMethod){
+                    $("#QR").attr('src',``)
+                }else{
+                    $("#QR").attr('src',`https://chart.googleapis.com/chart?cht=qr&chl=${hashedVoucher}&chs=200x200&chld=L|0`)
+                }
+
                 let amount = "{{amount}}"
                 let decemelAmount = Number(amount).toFixed(3).split('.')[1] =='000'?'': Number(amount).toFixed(3).split('.')[1]
                 let currencyValue = "دينار"
