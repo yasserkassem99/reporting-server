@@ -125,6 +125,88 @@ function getXLS(req, res) {
 
 app.post('/generatePdfReport', function (req, res) {
 
+  if (req.body.type == "injaz_template") {
+    jsreport
+      .render({
+        template: {
+          content: fs.readFileSync(path.join("./pdfTemplates/injazVoucher.html"), "utf8"),
+          engine: "handlebars",
+          recipe: "chrome-pdf",
+          helpers: fs.readFileSync(path.join("helpers.js"), "utf8"),
+          chrome: {
+            headerTemplate: "<div style='text-align:center'>{#pageNum}/{#numPages}</div>",
+            width: "210mm",
+            height:'148mm',
+            marginLeft: "1.1cm",
+            marginTop:"0.5cm"
+          }
+        },
+        data: { 
+          voucher_date: req.body.voucher_date,
+          voucher_id:req.body.voucher_id,
+          driver_name:req.body.driver_name,
+          amount:req.body.amount,
+          clearing_agent_cont_num:req.body.clearing_agent_cont_num,
+          operation_type:req.body.operation_type,
+          before_fraction:req.body.before_fraction,
+          after_fraction:req.body.after_fraction,
+          driver_nn:req.body.driver_nn,
+          tn:req.body.truckNumber
+         },
+      })
+      .then(resp => {
+
+        // write report buffer to a file
+        res.writeHead(200, {
+          'Content-Type': 'application/pdf',
+          'Content-Disposition': 'attachment; filename="filename.pdf"'
+        });
+        const download = Buffer.from(resp.content.toString('base64'), 'base64');
+        res.end(download)
+      });
+  }
+
+  if (req.body.type == "silk_road_voucher") {
+    jsreport
+      .render({
+        template: {
+          content: fs.readFileSync(path.join("./pdfTemplates/silk_road_voucher.html"), "utf8"),
+          engine: "handlebars",
+          recipe: "chrome-pdf",
+          helpers: fs.readFileSync(path.join("helpers.js"), "utf8"),
+          chrome: {
+            headerTemplate: "<div style='text-align:center'>{#pageNum}/{#numPages}</div>",
+            width: "210mm",
+            height:'148mm',
+            marginLeft: "1.1cm",
+            marginTop:"0.5cm"
+          }
+        },
+        data: { 
+          voucher_date: req.body.voucher_date,
+          voucher_id:req.body.voucher_id,
+          driver_name:req.body.driver_name,
+          amount:req.body.amount,
+          clearing_agent_cont_num:req.body.clearing_agent_cont_num,
+          operation_type:req.body.operation_type,
+          before_fraction:req.body.before_fraction,
+          after_fraction:req.body.after_fraction,
+          driver_nn:req.body.driver_nn,
+          tn:req.body.truckNumber
+         },
+      })
+      .then(resp => {
+
+        // write report buffer to a file
+        res.writeHead(200, {
+          'Content-Type': 'application/pdf',
+          'Content-Disposition': 'attachment; filename="filename.pdf"'
+        });
+        const download = Buffer.from(resp.content.toString('base64'), 'base64');
+        res.end(download)
+      });
+  }
+
   if (req.body.type == "trail_balance") {
     console.log('req.body.data',req.body.logo)
     jsreport
