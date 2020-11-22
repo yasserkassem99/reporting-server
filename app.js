@@ -124,7 +124,7 @@ function getXLS(req, res) {
 // ------------------------------------------------------------------ //
 
 app.post('/generatePdfReport', function (req, res) {
-
+console.log("hereeeeeeeeeeeeeeeeeeeeeee")
   if (req.body.type == "injaz_template") {
     jsreport
       .render({
@@ -194,7 +194,8 @@ app.post('/generatePdfReport', function (req, res) {
           driver_nn:req.body.driver_nn,
           tn:req.body.truckNumber,
           payment_method: req.body.payment_method,
-          from_account_name:req.body.from_account_name
+          from_account_name:req.body.from_account_name,
+          payment_commission:req.body.payment_commission
          },
       })
       .then(resp => {
@@ -447,7 +448,9 @@ app.post('/generatePdfReport', function (req, res) {
                 companyName:req.body.companyName,
                 total_credit:req.body.total_credit,
                 total_debit:req.body.total_debit,
-                printer_name:req.body.printer_name}
+                printer_name:req.body.printer_name,
+                reportName:req.body.reportName},
+
       })
       .then(resp => {
         // write report buffer to a file
@@ -487,6 +490,43 @@ app.post('/generatePdfReport', function (req, res) {
         res.end(download)
       });
   }
+
+  if (req.body.type == "phosphate_report") {
+    jsreport
+      .render({
+        template: {
+          // content: fs.readFileSync(path.join("master.html"), "utf8"),
+          content: fs.readFileSync(path.join("./pdfTemplates/phospateReport.html"), "utf8"),
+          engine: "handlebars",
+          recipe: "chrome-pdf",
+          helpers: fs.readFileSync(path.join("helpers.js"), "utf8"),
+          chrome: {
+            headerTemplate: "<div style='text-align:center'>{#pageNum}/{#numPages}</div>",
+            width: "1500px",
+            marginTop: "1cm",
+            marginLeft: "1cm",
+          }
+        },
+        data: { 
+          data: req.body.data,
+          titleData: req.body.titleData,
+          totalData: req.body.totalData,
+          print_date:req.body.print_date,
+          from_date:req.body.from_date,
+          to_date:req.body.to_date,
+          cargo_name:req.body.cargo_name },
+      })
+      .then(resp => {
+        // write report buffer to a file
+        res.writeHead(200, {
+          'Content-Type': 'application/pdf',
+          'Content-Disposition': 'attachment; filename="filename.pdf"'
+        });
+        const download = Buffer.from(resp.content.toString('base64'), 'base64');
+        res.end(download)
+      });
+  }
+
 });
 
 
@@ -607,6 +647,7 @@ function generateXls(req, res) {
 
   columns.forEach((el) => {
     el.style = {
+      ...el.style,
       font: {
         size: styleFontSize ? styleFontSize :12,
         'name': 'Calibri',
@@ -619,6 +660,7 @@ function generateXls(req, res) {
     }
   })
 
+  console.log(columns)
   sheet.columns = columns;
   sheet.getColumn(toColumnName(values.length)).width = 35; //last column 
 

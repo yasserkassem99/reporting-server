@@ -24,7 +24,7 @@
             <p style="font-size: 15px; font-weight: bold;">{{companyName}}</p>
           </div>
           <div style="display: flex;justify-content: space-between;" class="col-xs-12">
-            <p style="font-size: 12px;">تقرير اغلاق الصندوق - {{accountName}}</p>
+            <p style="font-size: 12px;"> {{reportName}} - {{accountName}}</p>
             <p>الرصيد الافتتاحي: <strong>{{starting_balance}}</strong></p>
           </div>
           <div style="display: flex;justify-content: space-between;" class="col-xs-12">
@@ -72,11 +72,11 @@
                 <td style="border-left: 1px solid #ccc;text-align: center;min-width: 70px;padding: 1px;">
                   {{trx_id}}</td>
                   <td style="border-left: 1px solid #ccc;text-align: center;min-width: 70px;padding: 1px;">
+                    {{debit}}
+                  </td>
+                  <td style="border-left: 1px solid #ccc;text-align: center;min-width: 70px;padding: 1px;">
                     {{credit}}
                   </td>
-                <td style="border-left: 1px solid #ccc;text-align: center;min-width: 70px;padding: 1px;">
-                  {{debit}}
-                </td>
                 <td style="border-left: 1px solid #ccc;text-align: center;min-width: 70px;padding: 1px;">
                   {{current_balance}}
                 </td>
@@ -94,11 +94,11 @@
                 <td style="border-left: 1px solid #ccc;text-align: center;min-width: 70px;padding: 1px;">
                   المجموع
                   </td>
-                  <td style="border-left: 1px solid #ccc;text-align: center;min-width: 70px;padding: 1px;">
-                    {{total_credit}}
-                  </td>
                 <td style="border-left: 1px solid #ccc;text-align: center;min-width: 70px;padding: 1px;">
                   {{total_debit}}
+                </td>
+                <td style="border-left: 1px solid #ccc;text-align: center;min-width: 70px;padding: 1px;">
+                  {{total_credit}}
                 </td>
                 <td style="border-left: 1px solid #ccc;text-align: center;min-width: 70px;padding: 1px;">
                   

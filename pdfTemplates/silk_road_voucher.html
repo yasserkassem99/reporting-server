@@ -28,6 +28,13 @@
                             flex: 1;
                             margin-right: 7px;
                         }
+			.field_text_small{
+                            border-bottom: 1px dashed #999;
+                            text-decoration: none; 
+                            flex: 1;
+                            margin-right: 7px;
+			    font-size:15px;
+                        }
                         .QR {
                         /* margin-left: 0%; */
                         position: absolute;
@@ -45,21 +52,20 @@
                     <p dir="ltr">&#9632;Tel: +962277531660, +962772137571</p> 
                     <p>الطفيلة - الحسا</p>
                 </div>
-                <img src='https://i.ibb.co/syS6KLM/silk-road-logo.png' style="max-height: 100px;"/>
+                <img src='https://i.ibb.co/syS6KLM/silk-road-logo.png' style="max-height: 100px; padding-botom: 10px"/>
             </div>
             <div style="display: flex;">
                 <div style="flex: 1;display: flex;">
                 <p style="font-size: 20px;">التاريخ: {{voucher_date}}</p>
                 </div>
                 <div style="flex: 1;text-align: center;">
-                <h3 style="margin: 0;margin-bottom: 5px;">سند صرف</h3>
-                <p style="font-size: 12px;"> الحساب:{{from_account_name}}</p>
+                <h3 style="margin: 0;">سند صرف</h3>                
                 </div>
                 <div style="flex: 1;text-align: end;">
-                <img id="barcode" style="max-height: 90px;"/>
+                <img id="barcode" style="max-height: 90px; padding-top: 2px"/>
                 </div>
             </div>
-            <div style="display: flex;justify-content: center;margin-bottom: 30px;">
+            <div style="display: flex;justify-content: center;margin-bottom: 20px;">
                 <div style="border:1px solid;width: 75px;height: 40px;text-align: center;">
                     <p style="border-bottom: 1px solid; margin: 0;">فلس</p>
                     <p style="margin: 0;font-size: 15px;">{{after_fraction}}</p>
@@ -76,20 +82,24 @@
                     <p>الرقم الوطني: </p>
                     <p class="field_text">{{driver_nn}}</p>
                 </div>
-                <div class="field">
+ 		<div class="field">
                     <p>الشاحنة: </p>
-                    <p  class="field_text">{{tn}}</p>
+                    <p class="field_text">{{tn}}</p>
+                    <p>الحساب: </p>
+                    <p class="field_text">{{from_account_name}}</p>
                 </div>
+
                 <div class="field">
                     <p>مبلغ وقدره: </p>
                     <p id='valueholder'  class="field_text"></p>
                 </div>
                 <div class="field">
-                    <p class="field_text">{{clearing_agent_cont_num}}</p>
+                    <p class="field_text_small">{{clearing_agent_cont_num}}</p>
                 </div>
             </div>
 
-            <div style="display: flex; justify-content: flex-end;max-width: 85%;">
+            <div style="display: flex; justify-content: space-between;max-width: 90%;">
+                <p id='payment_commission'></p>
                 <p>توقيع المستلم:</p>
             </div>
             
@@ -124,6 +134,11 @@
 
                 } else if (amount && amount.trim() != "" && decemelAmount.trim() == "") {
                     document.getElementById("valueholder").innerText =  tafqeet(amount) + " " + currencyValue + " أردني " + "فقط لاغير";
+                }
+
+                let commission ='{{payment_commission}}'
+                if(commission){
+                    document.getElementById("payment_commission").innerText =  `تم خصم عمولة صرف بقيمة ${commission} د.أ`;
                 }
             })
         </script>
