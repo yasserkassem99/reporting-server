@@ -613,7 +613,10 @@ app.post("/generatePdfReport", function (req, res) {
           totalLoadingWeights:req.body.totalLoadingWeights,
           totalFines:req.body.totalFines,
           totalBaseAmount:req.body.totalBaseAmount,
-          lossInKg:req.body.lossInKg
+          lossInKg:req.body.lossInKg,
+          beneficiary_name:req.body.beneficiary_name,
+          differences:req.body.differences,
+          totalApproved:req.body.totalApproved
         },
       })
       .then((resp) => {
@@ -869,4 +872,4 @@ function toColumnName(num) {
   return ret;
 }
 
-app.listen(3000);
+app.listen(5000);
