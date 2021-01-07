@@ -1,27 +1,7 @@
-var fs = require("fs");
+const fs = require("fs");
 const Excel = require("exceljs");
 const jsreport = require("jsreport");
-var path = require("path");
-
-function addOne(index) {
-  return index + 1;
-}
-
-let page = 1;
-
-function date() {
-  let date = new Date();
-  // return Date.UTC()
-  return `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
-}
-
-function toColumnName(num) {
-  for (var ret = "", a = 1, b = 26; (num -= a) >= 0; a = b, b *= 26) {
-    ret = String.fromCharCode(parseInt((num % b) / a) + 65) + ret;
-  }
-  return ret;
-}
-
+const path = require("path");
 // --------------------------------------------------------------------------------------------- //
 //          downloads the generate excel file and removes files older than 10 minutes
 // --------------------------------------------------------------------------------------------- //
@@ -332,11 +312,11 @@ const generatePdfReport = (req, res) => {
         content: fs.readFileSync(path.join(template), "utf8"),
         engine: "handlebars",
         recipe: "chrome-pdf",
-        helpers: fs.readFileSync(path.join("helpers.js"), "utf8"),
+        helpers: fs.readFileSync(path.join("./utils.js"), "utf8"),
         chrome: {
           headerTemplate:
             "<div style='text-align:center'>{#pageNum}/{#numPages}</div>",
-          width: "210mm",
+          width: "800px",
           height: "148mm",
           marginLeft: "1.1cm",
           marginTop: "0.5cm",

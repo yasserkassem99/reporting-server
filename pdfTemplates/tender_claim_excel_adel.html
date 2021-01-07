@@ -30,12 +30,12 @@
         تاريخ الطباعة: {{print_date}}
 </div>
 <div style="flex:1;display: flex;justify-content: flex-end;">
-    <img src="https://firebasestorage.googleapis.com/v0/b/waybill-project.appspot.com/o/3b98aa23-ea5b-45e9-8f25-5233b3e99841.jpg?alt=media&token=0cc1833f-b0cc-4546-878a-b437781b27eb" height="200px" width="200px"/>
+    <img src="{{logo}}" height="200px" width="200px"/>
 </div>
 </div>
   <div class="row">
     <div class="col-xs-12 text-center">
-      <h2> شركة عدل للنقل والخدمات اللوجستية</h2>
+      <h2> {{company_name}}</h2>
     </div>
   </div>
       <div style="margin-bottom: 8px;" class="row">
@@ -114,10 +114,11 @@
                 {{addOne @index}}
             </td>
             <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">
-              {{destination_name}}</td>
+              {{claim_destination_name}}</td>
             <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">
               {{ref_num}}</td>
-            <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">{{tn}}</td>
+            <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">
+              {{tn}}</td>
             <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">
                 {{claim_loading_weight}}</td>
             <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">
@@ -138,7 +139,8 @@
               <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">
                 {{ijmali}}
               </td>
-                <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">{{loss_fine}}
+                <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">
+                  {{loss_fine}}
                 </td>
             <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">
               {{loss_in_kg}}
