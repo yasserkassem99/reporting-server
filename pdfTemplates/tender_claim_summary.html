@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/jsbarcode/3.6.0/JsBarcode.all.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery.qrcode@1.0.3/jquery.qrcode.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+    integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css?family=Amiri:400,700&amp;subset=arabic" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600%7CRaleway:300,400,500,600,700%7CLato:300,400,400italic,600,700"
+    rel="stylesheet" type="text/css" />
+  <style>
+    .totaValue {
+      font-size: 23px;
+      margin-top: 30px; 
+      margin-bottom: 20px;
+    }
+    span{
+      display: block;
+    }
+  </style>
+</head>
+
+<body dir='rtl' style="font-family:Amiri; font-size:19px;">
+<div class="well" style="background-color: #fff; border: none;">
+<div style="display: flex;justify-content: space-between; align-items: center;">
+<div style="flex: 1;">
+        <p style="padding: 0 15px;">تاريخ الطباعة: {{print_date}}</p>
+        <p style="padding: 0 15px;">الحمولات: {{cargos}}</p>
+        <p style="padding: 0 15px;">عدد الوصولات الكلي: {{totalcounts}}</p>
+</div>
+<h2> شركة عدل للنقل والخدمات اللوجستية</h2>
+<div style="flex:1;display: flex;justify-content: flex-end;">
+    <img src="https://firebasestorage.googleapis.com/v0/b/waybill-project.appspot.com/o/3b98aa23-ea5b-45e9-8f25-5233b3e99841.jpg?alt=media&token=0cc1833f-b0cc-4546-878a-b437781b27eb" height="200px" width="200px"/>
+</div>
+</div>
+      <div class="row text-center">
+          <p>مطالبة رقم {{ref_num}}</p>
+      </div>
+  <div style="width: 100%; justify-content: center;display: flex;">
+    <div style="width: 100%; padding-right: 2.2%;">
+      <table style=" margin-left: auto;margin-right: auto; width: 1400px;">
+        <thead style="border: 1px solid #ccc;">
+          <td style="font-size:20px;padding:5px;border-left: 1px solid #ccc;text-align: center;">الوجهة</td>
+          <td style="font-size:20px;padding:5px;border-left: 1px solid #ccc;text-align: center;">عدد الوصولات</td>
+          <td style="font-size:20px;padding:5px;border-left: 1px solid #ccc;text-align: center;">كمية التحميل</td>
+          <td  style="font-size:20px;padding:5px;border-left: 1px solid #ccc;text-align: center;">السعر</td>
+          <td  style="font-size:20px;padding:5px;border-left: 1px solid #ccc;text-align: center;"> كمية النقص</td>
+          <td style="font-size:20px;padding:5px;border-left: 1px solid #ccc;text-align: center;">سعر النقص</td>
+          <td style="font-size:20px;padding:5px;border-left: 1px solid #ccc;text-align: center;">غرامات</td>
+          <td style="font-size:20px;padding:5px;border-left: 1px solid #ccc;text-align: center;">القيمة</td>
+        </thead>
+        <tbody>
+          {{#each data}}
+          <tr style="border: 1px solid #ccc;">
+            <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">
+              {{claim_destination_name}}</td>
+            <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">
+              {{count}}</td>
+            <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">
+                {{claim_loading_weight}}</td>
+            <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">
+                {{wage_per_ton}}</td>
+            <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">
+              {{loss_in_kg}}</td>
+              <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">
+                {{loss_fine_per_kg}}</td>
+            <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">
+              {{total_fines}}</td>
+              <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">
+                {{base_amount}}
+              </td>
+          </tr>
+          {{/each}}
+          <tr style="border: 1px solid #ccc;">
+            <td colspan="7" style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">
+                قيمة الطوابع المالية
+            </td>
+              <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">
+                {{totalTawabe}}
+              </td>
+          </tr>
+          <tr style="border: 1px solid #ccc;">
+            <td colspan="7" style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">
+                صافي المطالبة
+            </td>
+              <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">
+                {{totalAmount}}
+              </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+</body>
+</html>

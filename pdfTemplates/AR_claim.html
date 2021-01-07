@@ -1,217 +1,734 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/jsbarcode/3.6.0/JsBarcode.all.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery.qrcode@1.0.3/jquery.qrcode.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+      integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+      crossorigin="anonymous"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Amiri:400,700&amp;subset=arabic"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600%7CRaleway:300,400,500,600,700%7CLato:300,400,400italic,600,700"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <style>
+      .totaValue {
+        font-size: 23px;
+        margin-top: 30px;
+        margin-bottom: 20px;
+      }
+      span {
+        display: block;
+      }
+    </style>
+  </head>
 
-<head>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/jsbarcode/3.6.0/JsBarcode.all.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/jquery.qrcode@1.0.3/jquery.qrcode.min.js"></script>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-    integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-  <link href="https://fonts.googleapis.com/css?family=Amiri:400,700&amp;subset=arabic" rel="stylesheet">
-  <link
-    href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600%7CRaleway:300,400,500,600,700%7CLato:300,400,400italic,600,700"
-    rel="stylesheet" type="text/css" />
-  <style>
-    .totaValue {
-      font-size: 23px;
-      margin-top: 30px; 
-      margin-bottom: 20px;
-    }
-    span{
-      display: block;
-    }
-  </style>
-</head>
-
-<body dir='rtl' style="font-family:Amiri; font-size:19px;">
-<div class="well" style="background-color: #fff; border: none;">
-  <div class="row">
-    <div class="col-xs-6">
-      <p> المستفيد:{{beneficiary_name}}</p>
-    </div>
-    <div class="col-xs-6">
-      <p> رقم المطالبة:{{tender_claim_id}}</p>
-      <p>مكتب الصرف:{{pa_name}}</p>
-      <p>تاريخ المطالبة:{{tender_claim_date}}</p>
-      <p>تاريخ الطباعة: {{print_date}}</p>
-    </div>
-
-  </div>
-  <div style="width: 100%; justify-content: center;display: flex;">
-    <div style="width: 100%; padding-right: 0.1%;">
-      <table style="margin-left: auto;margin-right: auto; width: 1400px;">
-        <thead style="border: 1px solid #ccc;">
-            <td style="font-size:20px;padding:5px;border-left: 1px solid #ccc;text-align: center;">#</td>
-            <td style="font-size:20px;padding:5px;border-left: 1px solid #ccc;text-align: center;"> رقم الشاحنة</td>
-            <td style="font-size:20px;padding:5px;border-left: 1px solid #ccc;text-align: center;">البوليصة</td>
-            <td style="font-size:20px;padding:5px;border-left: 1px solid #ccc;text-align: center;"> الوجهة</td>
-            <td style="font-size:20px;padding:5px;border-left: 1px solid #ccc;text-align: center;"> المادة</td>
-            <td colspan="2" style="font-size:20px;padding:5px;border-left: 1px solid #ccc;text-align: center;"> التحميل</td>
-            <td colspan="2" style="font-size:20px;padding:5px;border-left: 1px solid #ccc;text-align: center;"> التفريغ</td>
-            <td style="font-size:20px;padding:5px;border-left: 1px solid #ccc;text-align: center;"> كمية السماح</td>
-            <td style="font-size:20px;padding:5px;border-left: 1px solid #ccc;text-align: center;">كمية النقص</td>
-            <td style="font-size:20px;padding:5px;border-left: 1px solid #ccc;text-align: center;">سعر الطن</td>
-            <td style="font-size:20px;padding:5px;border-left: 1px solid #ccc;text-align: center;">لغرامات</td>
-            <td style="font-size:20px;padding:5px;border-left: 1px solid #ccc;text-align: center;"> المطلوب</td>
-            <td style="font-size:20px;padding:5px;border-left: 1px solid #ccc;text-align: center;"> المحستب</td>
-        </thead>
-        <tbody>
-          {{#each data}}
-          <tr style="border: 1px solid #ccc;">
-            <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">
-                {{addOne @index}}
-            </td>
-            <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">{{tn}}</td>
-            <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">
-              {{ref_num}}</td>
-              <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">
-                {{claim_destination_name}}</td>
-                <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">
-                  {{cargo_name}}</td>
-                <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">
-                  {{claim_loading_weight}}</td>
-              <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">
-                {{claim_loading_date}}</td>
-                <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">
-                  {{claim_discharge_weight}}</td>
-              <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">
-                {{claim_discharge_date}}</td>
-                <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">
-                  {{tolerance_in_kg}}</td>
-                  <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">
-                    {{loss_in_kg}}
-                  </td>
-                  <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">
-                    {{wage_per_ton}}
-                  </td>
-                    <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">{{total_fines}}
-                    </td>
-                    <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">{{net_amount}}</td>
-		                <td style="text-align: center;">{{approved_net_amount}}</td>
-            
-          </tr>
-          {{/each}}
-          <tr style="border: 1px solid #ccc;">
-            <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">
-                المجموع
-            </td>
-            <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;"></td>
-            <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">
-              </td>
-              <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">
-                </td>
-                <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">
-                  </td>
-                <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">
-                  {{totalLoadingWeights}}
-                  </td>
-              <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">
-                </td>
-                <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">
-                  {{totalDischargeWeights}} 
-                  </td>
-              <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">
-              
-              </td>
-                <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">
-                 </td>
-                  <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">
-                    {{lossInKg}}
-                  </td>
-                  <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">
-                    </td>  
-                    <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">
-                      {{totalFines}}
-                    </td>
-                    <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">
-                      {{totalAmount}}
-                    </td>
-                    <td style="text-align: center;">
-                    {{totalApproved}}
-                    </td>
-          </tr>
-        </tbody>
-      </table>
-
-      <div style="page-break-before: always;"></div>
+  <body dir="rtl" style="font-family: Amiri; font-size: 19px">
+    <div class="well" style="background-color: #fff; border: none">
       <div class="row">
-        <div class="text-center col-xs-12">
-          <h2>ملحق التدقيق</h2>
+        <div class="col-xs-6">
+          <p>المستفيد:{{beneficiary_name}}</p>
+        </div>
+        <div class="col-xs-6">
+          <p>رقم المطالبة:{{tender_claim_id}}</p>
+          <p>مكتب الصرف:{{pa_name}}</p>
+          <p>تاريخ المطالبة:{{tender_claim_date}}</p>
+          <p>تاريخ الطباعة: {{print_date}}</p>
         </div>
       </div>
-      <table style="margin-left: auto;margin-right: auto; width: 1400px;">
-        <thead style="border: 1px solid #ccc;">
-            <td style="font-size:20px;padding:5px;border-left: 1px solid #ccc;text-align: center;">المطالبة</td>
-            <td style="font-size:20px;padding:5px;border-left: 1px solid #ccc;text-align: center;">البوليصة</td>
-            <td colspan="2" style="font-size:20px;padding:5px;border-left: 1px solid #ccc;text-align: center;"> التحميل</td>
-            <td colspan="2" style="font-size:20px;padding:5px;border-left: 1px solid #ccc;text-align: center;"> التفريغ</td>
-            <td  style="font-size:20px;padding:5px;border-left: 1px solid #ccc;text-align: center;"> الغرامات</td>
-            <td  style="font-size:20px;padding:5px;border-left: 1px solid #ccc;text-align: center;"> الوجهة</td>
-            <td style="font-size:20px;padding:5px;border-left: 1px solid #ccc;text-align: center;"> المادة</td>
-            <td style="font-size:20px;padding:5px;border-left: 1px solid #ccc;text-align: center;">المبلغ</td>
-        </thead>
-        <tbody>
-          {{#each differences}}
-          <tr style="border: 1px solid #ccc;">
-            <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">
-                مطالبة المكتب
-            </td>
-            <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">
-              {{ref_num}}</td>
-            <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">
-              {{claim_loading_weight}}</td>
-              <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">
-                {{claim_loading_date}}</td>
-                <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">
-                  {{claim_discharge_weight}}</td>
-              <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">
-                {{claim_discharge_date}}</td>
-                <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">{{total_fines}}
+      <div style="width: 100%; justify-content: center; display: flex">
+        <div style="width: 100%; padding-right: 0.1%">
+          <table style="margin-left: auto; margin-right: auto; width: 1400px">
+            <thead style="border: 1px solid #ccc">
+              <td
+                style="
+                  font-size: 20px;
+                  padding: 5px;
+                  border-left: 1px solid #ccc;
+                  text-align: center;
+                "
+              >
+                #
+              </td>
+              <td
+                style="
+                  font-size: 20px;
+                  padding: 5px;
+                  border-left: 1px solid #ccc;
+                  text-align: center;
+                "
+              >
+                رقم الشاحنة
+              </td>
+              <td
+                style="
+                  font-size: 20px;
+                  padding: 5px;
+                  border-left: 1px solid #ccc;
+                  text-align: center;
+                "
+              >
+                البوليصة
+              </td>
+              <td
+                style="
+                  font-size: 20px;
+                  padding: 5px;
+                  border-left: 1px solid #ccc;
+                  text-align: center;
+                "
+              >
+                الوجهة
+              </td>
+              <td
+                style="
+                  font-size: 20px;
+                  padding: 5px;
+                  border-left: 1px solid #ccc;
+                  text-align: center;
+                "
+              >
+                المادة
+              </td>
+              <td
+                colspan="2"
+                style="
+                  font-size: 20px;
+                  padding: 5px;
+                  border-left: 1px solid #ccc;
+                  text-align: center;
+                "
+              >
+                التحميل
+              </td>
+              <td
+                colspan="2"
+                style="
+                  font-size: 20px;
+                  padding: 5px;
+                  border-left: 1px solid #ccc;
+                  text-align: center;
+                "
+              >
+                التفريغ
+              </td>
+              <td
+                style="
+                  font-size: 20px;
+                  padding: 5px;
+                  border-left: 1px solid #ccc;
+                  text-align: center;
+                "
+              >
+                كمية السماح
+              </td>
+              <td
+                style="
+                  font-size: 20px;
+                  padding: 5px;
+                  border-left: 1px solid #ccc;
+                  text-align: center;
+                "
+              >
+                كمية النقص
+              </td>
+              <td
+                style="
+                  font-size: 20px;
+                  padding: 5px;
+                  border-left: 1px solid #ccc;
+                  text-align: center;
+                "
+              >
+                سعر الطن
+              </td>
+              <td
+                style="
+                  font-size: 20px;
+                  padding: 5px;
+                  border-left: 1px solid #ccc;
+                  text-align: center;
+                "
+              >
+                لغرامات
+              </td>
+              <td
+                style="
+                  font-size: 20px;
+                  padding: 5px;
+                  border-left: 1px solid #ccc;
+                  text-align: center;
+                "
+              >
+                المطلوب
+              </td>
+              <td
+                style="
+                  font-size: 20px;
+                  padding: 5px;
+                  border-left: 1px solid #ccc;
+                  text-align: center;
+                "
+              >
+                المحستب
+              </td>
+            </thead>
+            <tbody>
+              {{#each data}}
+              <tr style="border: 1px solid #ccc">
+                <td
+                  style="
+                    border-left: 1px solid #ccc;
+                    text-align: center;
+                    padding: 2px;
+                  "
+                >
+                  {{addOne @index}}
                 </td>
-                <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">
-                  {{claim_destination_name}}</td>
-                <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">
-                  {{cargo_name}}</td>
-                <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">{{claim_amount}}</td>
-          </tr>
-          <tr style="border: 1px solid #ccc;">
-            <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">
-                تدقيق شركة النقل
-            </td>
-            <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">
-              {{ref_num}}</td>
-            <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">
-              {{approved_loading_weight}}</td>
-              <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">
-                {{approved_loading_date}}</td>
-                <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">
-                  {{approved_discharge_weight}}</td>
-              <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">
-                {{approved_discharge_date}}</td>
-                <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">
-                  {{approved_total_fines}}
+                <td
+                  style="
+                    border-left: 1px solid #ccc;
+                    text-align: center;
+                    padding: 2px;
+                  "
+                >
+                  {{tn}}
                 </td>
-                <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">
-                  {{approved_destination_name}}</td>
-                <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">
-                  {{approved_cargo_name}}</td>
-                <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">{{approved_net_amount}}</td>
-          </tr>
-          {{/each}}
-        </tbody>
-      </table>
-      <div style="margin-top: 30px;" class="row">
-        <div class="col-xs-4">
-          <p>اسم وتوقيع المستلم:</p>
-            
-          </div>
-        <div class="col-xs-8">
-          <p>توقيع امين الصندوق:</p>
-          </div>
-    </div>
-    </div>
-  </div>
-</div>
-</body>
+                <td
+                  style="
+                    border-left: 1px solid #ccc;
+                    text-align: center;
+                    padding: 2px;
+                  "
+                >
+                  {{ref_num}}
+                </td>
+                <td
+                  style="
+                    border-left: 1px solid #ccc;
+                    text-align: center;
+                    padding: 2px;
+                  "
+                >
+                  {{claim_destination_name}}
+                </td>
+                <td
+                  style="
+                    border-left: 1px solid #ccc;
+                    text-align: center;
+                    padding: 2px;
+                  "
+                >
+                  {{cargo_name}}
+                </td>
+                <td
+                  style="
+                    border-left: 1px solid #ccc;
+                    text-align: center;
+                    padding: 2px;
+                  "
+                >
+                  {{claim_loading_weight}}
+                </td>
+                <td
+                  style="
+                    border-left: 1px solid #ccc;
+                    text-align: center;
+                    padding: 2px;
+                  "
+                >
+                  {{claim_loading_date}}
+                </td>
+                <td
+                  style="
+                    border-left: 1px solid #ccc;
+                    text-align: center;
+                    padding: 2px;
+                  "
+                >
+                  {{claim_discharge_weight}}
+                </td>
+                <td
+                  style="
+                    border-left: 1px solid #ccc;
+                    text-align: center;
+                    padding: 2px;
+                  "
+                >
+                  {{claim_discharge_date}}
+                </td>
+                <td
+                  style="
+                    border-left: 1px solid #ccc;
+                    text-align: center;
+                    padding: 2px;
+                  "
+                >
+                  {{tolerance_in_kg}}
+                </td>
+                <td
+                  style="
+                    border-left: 1px solid #ccc;
+                    text-align: center;
+                    padding: 2px;
+                  "
+                >
+                  {{loss_in_kg}}
+                </td>
+                <td
+                  style="
+                    border-left: 1px solid #ccc;
+                    text-align: center;
+                    padding: 2px;
+                  "
+                >
+                  {{wage_per_ton}}
+                </td>
+                <td
+                  style="
+                    border-left: 1px solid #ccc;
+                    text-align: center;
+                    padding: 2px;
+                  "
+                >
+                  {{total_fines}}
+                </td>
+                <td
+                  style="
+                    border-left: 1px solid #ccc;
+                    text-align: center;
+                    padding: 2px;
+                  "
+                >
+                  {{net_amount}}
+                </td>
+                <td style="text-align: center">{{approved_net_amount}}</td>
+              </tr>
+              {{/each}}
+              <tr style="border: 1px solid #ccc">
+                <td
+                  style="
+                    border-left: 1px solid #ccc;
+                    text-align: center;
+                    padding: 2px;
+                  "
+                >
+                  المجموع
+                </td>
+                <td
+                  style="
+                    border-left: 1px solid #ccc;
+                    text-align: center;
+                    padding: 2px;
+                  "
+                ></td>
+                <td
+                  style="
+                    border-left: 1px solid #ccc;
+                    text-align: center;
+                    padding: 2px;
+                  "
+                ></td>
+                <td
+                  style="
+                    border-left: 1px solid #ccc;
+                    text-align: center;
+                    padding: 2px;
+                  "
+                ></td>
+                <td
+                  style="
+                    border-left: 1px solid #ccc;
+                    text-align: center;
+                    padding: 2px;
+                  "
+                ></td>
+                <td
+                  style="
+                    border-left: 1px solid #ccc;
+                    text-align: center;
+                    padding: 2px;
+                  "
+                >
+                  {{totalLoadingWeights}}
+                </td>
+                <td
+                  style="
+                    border-left: 1px solid #ccc;
+                    text-align: center;
+                    padding: 2px;
+                  "
+                ></td>
+                <td
+                  style="
+                    border-left: 1px solid #ccc;
+                    text-align: center;
+                    padding: 2px;
+                  "
+                >
+                  {{totalDischargeWeights}}
+                </td>
+                <td
+                  style="
+                    border-left: 1px solid #ccc;
+                    text-align: center;
+                    padding: 2px;
+                  "
+                ></td>
+                <td
+                  style="
+                    border-left: 1px solid #ccc;
+                    text-align: center;
+                    padding: 2px;
+                  "
+                ></td>
+                <td
+                  style="
+                    border-left: 1px solid #ccc;
+                    text-align: center;
+                    padding: 2px;
+                  "
+                >
+                  {{lossInKg}}
+                </td>
+                <td
+                  style="
+                    border-left: 1px solid #ccc;
+                    text-align: center;
+                    padding: 2px;
+                  "
+                ></td>
+                <td
+                  style="
+                    border-left: 1px solid #ccc;
+                    text-align: center;
+                    padding: 2px;
+                  "
+                >
+                  {{totalFines}}
+                </td>
+                <td
+                  style="
+                    border-left: 1px solid #ccc;
+                    text-align: center;
+                    padding: 2px;
+                  "
+                >
+                  {{totalAmount}}
+                </td>
+                <td style="text-align: center">{{totalApproved}}</td>
+              </tr>
+            </tbody>
+          </table>
 
+          
+          <div style="display: none;" id="tadqeq">
+            <div style="page-break-before: always"></div>
+            <div class="row">
+              <div class="text-center col-xs-12">
+                <h2>ملحق التدقيق</h2>
+              </div>
+            </div>
+            <table style="margin-left: auto; margin-right: auto; width: 1400px">
+              <thead style="border: 1px solid #ccc">
+                <td
+                  style="
+                    font-size: 20px;
+                    padding: 5px;
+                    border-left: 1px solid #ccc;
+                    text-align: center;
+                  "
+                >
+                  المطالبة
+                </td>
+                <td
+                  style="
+                    font-size: 20px;
+                    padding: 5px;
+                    border-left: 1px solid #ccc;
+                    text-align: center;
+                  "
+                >
+                  البوليصة
+                </td>
+                <td
+                  colspan="2"
+                  style="
+                    font-size: 20px;
+                    padding: 5px;
+                    border-left: 1px solid #ccc;
+                    text-align: center;
+                  "
+                >
+                  التحميل
+                </td>
+                <td
+                  colspan="2"
+                  style="
+                    font-size: 20px;
+                    padding: 5px;
+                    border-left: 1px solid #ccc;
+                    text-align: center;
+                  "
+                >
+                  التفريغ
+                </td>
+                <td
+                  style="
+                    font-size: 20px;
+                    padding: 5px;
+                    border-left: 1px solid #ccc;
+                    text-align: center;
+                  "
+                >
+                  الغرامات
+                </td>
+                <td
+                  style="
+                    font-size: 20px;
+                    padding: 5px;
+                    border-left: 1px solid #ccc;
+                    text-align: center;
+                  "
+                >
+                  الوجهة
+                </td>
+                <td
+                  style="
+                    font-size: 20px;
+                    padding: 5px;
+                    border-left: 1px solid #ccc;
+                    text-align: center;
+                  "
+                >
+                  المادة
+                </td>
+                <td
+                  style="
+                    font-size: 20px;
+                    padding: 5px;
+                    border-left: 1px solid #ccc;
+                    text-align: center;
+                  "
+                >
+                  المبلغ
+                </td>
+              </thead>
+              <tbody>
+                {{#each differences}}
+                <tr style="border-bottom: 1px solid #ccc">
+                  <td
+                    style="
+                      border: 1px solid #ccc;
+                      text-align: center;
+                      padding: 2px;
+                    "
+                  >
+                    مطالبة المكتب
+                  </td>
+                  <td
+                    style="
+                      border-left: 1px solid #ccc;
+                      text-align: center;
+                      padding: 2px;
+                    "
+                  >
+                    {{ref_num}}
+                  </td>
+                  <td
+                    style="
+                      border-left: 1px solid #ccc;
+                      text-align: center;
+                      padding: 2px;
+                    "
+                  >
+                    {{claim_loading_weight}}
+                  </td>
+                  <td
+                    style="
+                      border-left: 1px solid #ccc;
+                      text-align: center;
+                      padding: 2px;
+                    "
+                  >
+                    {{claim_loading_date}}
+                  </td>
+                  <td
+                    style="
+                      border-left: 1px solid #ccc;
+                      text-align: center;
+                      padding: 2px;
+                    "
+                  >
+                    {{claim_discharge_weight}}
+                  </td>
+                  <td
+                    style="
+                      border-left: 1px solid #ccc;
+                      text-align: center;
+                      padding: 2px;
+                    "
+                  >
+                    {{claim_discharge_date}}
+                  </td>
+                  <td
+                    style="
+                      border-left: 1px solid #ccc;
+                      text-align: center;
+                      padding: 2px;
+                    "
+                  >
+                    {{total_fines}}
+                  </td>
+                  <td
+                    style="
+                      border-left: 1px solid #ccc;
+                      text-align: center;
+                      padding: 2px;
+                    "
+                  >
+                    {{claim_destination_name}}
+                  </td>
+                  <td
+                    style="
+                      border-left: 1px solid #ccc;
+                      text-align: center;
+                      padding: 2px;
+                    "
+                  >
+                    {{cargo_name}}
+                  </td>
+                  <td
+                    style="
+                      border-left: 1px solid #ccc;
+                      text-align: center;
+                      padding: 2px;
+                    "
+                  >
+                    {{claim_amount}}
+                  </td>
+                </tr>
+                <tr style="border-bottom: 2px solid #000">
+                  <td
+                    style="
+                      border: 1px solid #ccc;
+                      text-align: center;
+                      padding: 2px;
+                    "
+                  >
+                    تدقيق شركة النقل
+                  </td>
+                  <td
+                    style="
+                      border-left: 1px solid #ccc;
+                      text-align: center;
+                      padding: 2px;
+                    "
+                  >
+                    {{ref_num}}
+                  </td>
+                  <td
+                    style="
+                      border-left: 1px solid #ccc;
+                      text-align: center;
+                      padding: 2px;
+                    "
+                  >
+                    {{approved_loading_weight}}
+                  </td>
+                  <td
+                    style="
+                      border-left: 1px solid #ccc;
+                      text-align: center;
+                      padding: 2px;
+                    "
+                  >
+                    {{approved_loading_date}}
+                  </td>
+                  <td
+                    style="
+                      border-left: 1px solid #ccc;
+                      text-align: center;
+                      padding: 2px;
+                    "
+                  >
+                    {{approved_discharge_weight}}
+                  </td>
+                  <td
+                    style="
+                      border-left: 1px solid #ccc;
+                      text-align: center;
+                      padding: 2px;
+                    "
+                  >
+                    {{approved_discharge_date}}
+                  </td>
+                  <td
+                    style="
+                      border-left: 1px solid #ccc;
+                      text-align: center;
+                      padding: 2px;
+                    "
+                  >
+                    {{approved_total_fines}}
+                  </td>
+                  <td
+                    style="
+                      border-left: 1px solid #ccc;
+                      text-align: center;
+                      padding: 2px;
+                    "
+                  >
+                    {{approved_destination_name}}
+                  </td>
+                  <td
+                    style="
+                      border-left: 1px solid #ccc;
+                      text-align: center;
+                      padding: 2px;
+                    "
+                  >
+                    {{cargo_name}}
+                  </td>
+                  <td
+                    style="
+                      border-left: 1px solid #ccc;
+                      text-align: center;
+                      padding: 2px;
+                    "
+                  >
+                    {{approved_net_amount}}
+                  </td>
+                </tr>
+                {{/each}}
+              </tbody>
+            </table>
+          </div>
+          <div style="margin-top: 30px" class="row">
+            <div class="col-xs-4">
+              <p>اسم وتوقيع المستلم:</p>
+            </div>
+            <div class="col-xs-8">
+              <p>توقيع امين الصندوق:</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      var differences = '{{differences}}';
+      if(differences.length > 0){
+        document.getElementById("tadqeq").style.display = "block"
+      }
+    </script>
+  </body>
 </html>

@@ -457,6 +457,7 @@ app.post("/generatePdfReport", function (req, res) {
         res.end(download);
       });
   }
+  
   if (req.body.type == "close_cash_box") {
     jsreport
       .render({
@@ -501,6 +502,152 @@ app.post("/generatePdfReport", function (req, res) {
         res.end(download);
       });
   }
+
+  if (req.body.type == "tender_claim_excel_adel") {
+    let newNumber = Number(req.body.totalData[0]['totalWages'].split(",").join(''))
+    let newtotalAmount = Number(req.body.totalData[0]['totalAmount'].split(",").join(''))
+  let wages = newNumber* 0.0015;
+  req.body.totalData[0]['totalAmount'] = Number(newtotalAmount - wages).toFixed(3)
+  .toString()
+  .replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+  req.body.totalData[0]['checkWage'] = wages.toFixed(3)
+  .toString()
+  .replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+    jsreport
+      .render({
+        template: {
+          // content: fs.readFileSync(path.join("master.html"), "utf8"),
+          content: fs.readFileSync(
+            path.join("./pdfTemplates/tender_claim_excel_adel.html"),
+            "utf8"
+          ),
+          engine: "handlebars",
+          recipe: "chrome-pdf",
+          helpers: fs.readFileSync(path.join("helpers.js"), "utf8"),
+          chrome: {
+            headerTemplate:
+              "<div style='text-align:center'>{#pageNum}/{#numPages}</div>",
+            width: "1500px",
+            marginTop: "1cm",
+            marginLeft: "1cm",
+          },
+        },
+        data: {
+          wages,
+          data: req.body.data,
+          titleData: req.body.titleData,
+          totalData: req.body.totalData,
+          print_date: req.body.print_date,
+          cargo_name: req.body.cargo_name,
+          logo:req.body.logo
+        },
+      })
+      .then((resp) => {
+        // write report buffer to a file
+        res.writeHead(200, {
+          "Content-Type": "application/pdf",
+          "Content-Disposition": 'attachment; filename="filename.pdf"',
+        });
+        const download = Buffer.from(resp.content.toString("base64"), "base64");
+        res.end(download);
+      });
+  }
+
+  if (req.body.type == "tender_claim_excel_phosphate") {
+    jsreport
+      .render({
+        template: {
+          // content: fs.readFileSync(path.join("master.html"), "utf8"),
+          content: fs.readFileSync(
+            path.join("./pdfTemplates/tender_claim_excel_phosphate.html"),
+            "utf8"
+          ),
+          engine: "handlebars",
+          recipe: "chrome-pdf",
+          helpers: fs.readFileSync(path.join("helpers.js"), "utf8"),
+          chrome: {
+            headerTemplate:
+              "<div style='text-align:center'>{#pageNum}/{#numPages}</div>",
+            width: "1500px",
+            marginTop: "1cm",
+            marginLeft: "1cm",
+          },
+        },
+        data: {
+          data: req.body.data,
+          titleData: req.body.titleData,
+          totalData: req.body.totalData,
+          print_date: req.body.print_date,
+          cargo_name: req.body.cargo_name,
+          logo:req.body.logo,
+          origin_name:req.body.origin_name,
+          destination_name:req.body.destination_name
+        },
+      })
+      .then((resp) => {
+        // write report buffer to a file
+        res.writeHead(200, {
+          "Content-Type": "application/pdf",
+          "Content-Disposition": 'attachment; filename="filename.pdf"',
+        });
+        const download = Buffer.from(resp.content.toString("base64"), "base64");
+        res.end(download);
+      });
+  }
+
+  if (req.body.type == "phosphate_claim_summary") {
+    jsreport
+      .render({
+        template: {
+          // content: fs.readFileSync(path.join("master.html"), "utf8"),
+          content: fs.readFileSync(
+            path.join("./pdfTemplates/phosphateTenderClaim.html"),
+            "utf8"
+          ),
+          engine: "handlebars",
+          recipe: "chrome-pdf",
+          helpers: fs.readFileSync(path.join("helpers.js"), "utf8"),
+          chrome: {
+            headerTemplate:
+              "<div style='text-align:center'>{#pageNum}/{#numPages}</div>",
+            width: "800px",
+            marginTop: "1cm",
+            marginLeft: "1cm",
+          },
+        },
+        data: {
+          ref_num: req.body.ref_num,
+          claim_date: req.body.claim_date,
+          header_ca: req.body.header_ca,
+          loss_fine_fils: req.body.loss_fine_fils,
+          print_date: req.body.print_date,
+          loss_fine_dinar: req.body.loss_fine_dinar,
+          late_fine_fils: req.body.late_fine_fils,
+          late_fine_dinar: req.body.late_fine_dinar,
+          printer_name: req.body.printer_name,
+          total_amount_fils: req.body.total_amount_fils,
+          total_amount_dinar: req.body.total_amount_dinar,
+          totalLoadingWeight:req.body.totalLoadingWeight,
+          wagePerTon:req.body.wagePerTon,
+          note:req.body.note,
+          amount:req.body.amount,
+          company_name:req.body.company_name,
+          safi_fils: req.body.safi_fils,
+          safi_dinar: req.body.safi_dinar,
+          safi:req.body.safi
+        },
+      })
+      .then((resp) => {
+        // write report buffer to a file
+        res.writeHead(200, {
+          "Content-Type": "application/pdf",
+          "Content-Disposition": 'attachment; filename="filename.pdf"',
+        });
+        const download = Buffer.from(resp.content.toString("base64"), "base64");
+        res.end(download);
+      });
+  }
+
   if (req.body.type == "tender_claim_excel") {
     jsreport
       .render({
@@ -527,6 +674,8 @@ app.post("/generatePdfReport", function (req, res) {
           totalData: req.body.totalData,
           print_date: req.body.print_date,
           cargo_name: req.body.cargo_name,
+          company_name:req.body.company_name,
+          logo:req.body.logo
         },
       })
       .then((resp) => {
@@ -629,6 +778,47 @@ app.post("/generatePdfReport", function (req, res) {
         res.end(download);
       });
   }
+
+  if (req.body.type == "tender_claim_summary") {
+    jsreport
+      .render({
+        template: {
+          // content: fs.readFileSync(path.join("master.html"), "utf8"),
+          content: fs.readFileSync(
+            path.join("./pdfTemplates/tender_claim_summary.html"),
+            "utf8"
+          ),
+          engine: "handlebars",
+          recipe: "chrome-pdf",
+          helpers: fs.readFileSync(path.join("helpers.js"), "utf8"),
+          chrome: {
+            headerTemplate:
+              "<div style='text-align:center'>{#pageNum}/{#numPages}</div>",
+            width: "1500px",
+            marginTop: "1cm",
+            marginLeft: "1cm",
+          },
+        },
+        data: {
+          data: req.body.data,
+          totalAmount: req.body.totalAmount,
+          totalTawabe: req.body.totalTawabe,
+          print_date: req.body.print_date,
+          ref_num:req.body.ref_num,
+          totalcounts:req.body.totalcounts,
+          cargos:req.body.cargos
+        },
+      })
+      .then((resp) => {
+        // write report buffer to a file
+        res.writeHead(200, {
+          "Content-Type": "application/pdf",
+          "Content-Disposition": 'attachment; filename="filename.pdf"',
+        });
+        const download = Buffer.from(resp.content.toString("base64"), "base64");
+        res.end(download);
+      });
+  }
 });
 
 // --------------------------------------------------------------------------------------------- //
@@ -640,6 +830,8 @@ function generateXls(req, res) {
 
   const workbook = new Excel.Workbook();
   const data = req.body.data;
+  const company_name = req.body.data.company_name;
+  const logo_name = req.body.data.logo_name;
   const rows = data.rows;
   const columns = data.columns;
   const values = columns.map((el) => el.header);
@@ -650,18 +842,22 @@ function generateXls(req, res) {
   sheet.views = [{ rightToLeft: true, showGridLines: false }];
 
   // -----------------ADD LOGO IMAGE -----------------------------------------------
-  var logo = workbook.addImage({
-    filename: "logo-small.png",
-    extension: "png",
-  });
-  sheet.addImage(logo, {
-    tl: { col: values.length, row: 1 },
-    br: { col: values.length + 1, row: 7 },
-  });
+  if(logo_name === "none"){
+      
+  }else{
+    var logo = workbook.addImage({
+      filename: logo_name?logo_name:"logo-small.png",
+      extension: "png",
+    });
+    sheet.addImage(logo, {
+      tl: { col: values.length, row: 1 },
+      br: { col: values.length + 1, row: 7 },
+    });
+  }
   sheet.getRow(1).hidden = true;
 
   //----------------------HEADER MAINTITLE ---------------------------------------
-  sheet.getCell("A2").value = "شركة مدارج للخدمات اللوجستية";
+  sheet.getCell("A2").value = company_name?company_name:"شركة مدارج للخدمات اللوجستية";
   if (data.title) {
     sheet.getCell("A3").value = data.title;
   }

@@ -129,6 +129,34 @@
             <td style="text-align: center;">{{amount}}</td>
           </tr>
           {{/each}}
+          {{# each totalData}}
+          <tr style="border: 1px solid #ccc;">
+            <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">
+                
+            </td>
+            <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">
+                </td>
+            <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">
+              </td>
+            <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">
+              </td>
+            <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">
+                </td>
+                <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">
+                   </td>
+            <td  style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">
+              {{totalLoadingWeight}} </td>
+                <td  style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">
+                    </td>
+              <td  style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">
+                {{totalDischargeWeight}}</td>
+                <td  style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">
+                    </td>
+                <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">
+                  {{totalFine}}</td>
+            <td style="text-align: center;">{{totalAmount}}</td>
+          </tr>
+          {{/each}}
         </tbody>
       </table>
       <div style="margin-top: 20px;" class="row">
