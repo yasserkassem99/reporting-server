@@ -4,15 +4,17 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@google-cloud/storage": "^5.7.1",
+    "dotenv": "^8.2.0",
     "exceljs": "^1.5.1",
     "jsreport": "^2.1.1",
-    "puppeteer": "^1.12.2",
-    "puppeteer-core": "^1.12.2",
-    "request": "^2.87.0"
+    "puppeteer": "^5.5.0",
+    "puppeteer-core": "^5.5.0"
   }
 }

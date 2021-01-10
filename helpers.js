@@ -2,6 +2,9 @@ const fs = require("fs");
 const Excel = require("exceljs");
 const jsreport = require("jsreport");
 const path = require("path");
+const { Storage } = require("@google-cloud/storage");
+const storage = new Storage();
+const bucket = storage.bucket("menagate_photos");
 // --------------------------------------------------------------------------------------------- //
 //          downloads the generate excel file and removes files older than 10 minutes
 // --------------------------------------------------------------------------------------------- //
@@ -28,34 +31,36 @@ const getXLS = (req, res) => {
 // --------------------------------------------------------------------------------------------- //
 //                              generate excel file and save it to temp
 // --------------------------------------------------------------------------------------------- //
-const generateXls = (req, res) => {
+
+function generateXls(req, res) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "X-Requested-With");
-
   const workbook = new Excel.Workbook();
   const data = req.body.data;
+  const company_name = req.body.data.company_name;
+  const logo_name = req.body.data.logo_name;
   const rows = data.rows;
   const columns = data.columns;
   const values = columns.map((el) => el.header);
   const sheet = workbook.addWorksheet("تقرير");
   const styleFontSize = req.body.data.cell_font_size;
   columns.unshift({ header: "#", key: "id", width: 10 });
-
   sheet.views = [{ rightToLeft: true, showGridLines: false }];
-
   // -----------------ADD LOGO IMAGE -----------------------------------------------
-  var logo = workbook.addImage({
-    filename: "logo-small.png",
-    extension: "png",
-  });
-  sheet.addImage(logo, {
-    tl: { col: values.length, row: 1 },
-    br: { col: values.length + 1, row: 7 },
-  });
+  if(logo_name === "none"){
+  }else{
+    var logo = workbook.addImage({
+      filename: logo_name?logo_name:"logo-small.png",
+      extension: "png",
+    });
+    sheet.addImage(logo, {
+      tl: { col: values.length, row: 1 },
+      br: { col: values.length + 1, row: 7 },
+    });
+  }
   sheet.getRow(1).hidden = true;
-
   //----------------------HEADER MAINTITLE ---------------------------------------
-  sheet.getCell("A2").value = "شركة مدارج للخدمات اللوجستية";
+  sheet.getCell("A2").value = company_name?company_name:"شركة مدارج للخدمات اللوجستية";
   if (data.title) {
     sheet.getCell("A3").value = data.title;
   }
@@ -71,10 +76,8 @@ const generateXls = (req, res) => {
       horizontal: "right",
     };
   });
-
   sheet.mergeCells("A2", toColumnName(values.length) + "2");
   sheet.mergeCells("A3", toColumnName(values.length) + "3");
-
   //---------------------HEADER SUBTITLES-----------------------------
   ["A4", "A5", "A6"].map((key) => {
     sheet.getCell(key).font = {
@@ -95,9 +98,7 @@ const generateXls = (req, res) => {
       j++;
     }
   }
-
   //--------------COLUMN HEADER---------------------------------------
-
   sheet.getRow(2).height = 25;
   sheet.getRow(3).height = 25;
   values.unshift("#");
@@ -129,9 +130,7 @@ const generateXls = (req, res) => {
       right: { style: "double", color: { argb: "black" } },
     };
   });
-
   //----------------STYLE COLUMNS ------------------------------------------
-
   columns.forEach((el) => {
     el.style = {
       ...el.style,
@@ -146,17 +145,14 @@ const generateXls = (req, res) => {
       },
     };
   });
-
   console.log(columns);
   sheet.columns = columns;
   sheet.getColumn(toColumnName(values.length)).width = 35; //last column
-
   //-----------ADD ROWS ------------------------------------------------------
   rows.forEach((element, index) => {
     element.id = index + 1;
     sheet.addRow(element);
   });
-
   let rowCells = [];
   for (let index = 1; index < values.length + 1; index++) {
     for (let j = 9; j < rows.length + 9; j++) {
@@ -207,7 +203,6 @@ const generateXls = (req, res) => {
     "A" + (rows.length + 10),
     toColumnName(values.length) + (rows.length + 10)
   );
-
   //------------------------GENERATE FILE-------------------------------
   let filename = Math.random();
   workbook.xlsx
@@ -219,7 +214,7 @@ const generateXls = (req, res) => {
     .catch((ex) => {
       console.log(ex);
     });
-};
+}
 
 // --------------------------------------------------------------------------------------------- //
 //                           renders the report and calls upload to firebase
@@ -229,7 +224,7 @@ const generateReport = (res, params, req, template) => {
     jsreport
       .render({
         template: {
-          content: fs.readFileSync(path.join(template), "utf8"),
+          content: fs.readFileSync(path.join("./tmp/"+template), "utf8"),
           recipe: "chrome-pdf",
           engine: "handlebars",
 
@@ -260,84 +255,39 @@ const generateReport = (res, params, req, template) => {
 };
 
 const generatePdfReport = (req, res) => {
-  let template = "./pdfTemplates/";
-  switch (req.body.type) {
-    case "injaz_template":
-      template += "injazVoucher.html";
-      break;
-    case "silk_road_voucher":
-      template += "silk_road_voucher.html";
-      break;
-    case "trail_balance":
-      template += "trailBalance.html";
-      break;
-    case "tender_claim":
-      template += "tender_claim.html";
-      break;
-    case "trucking_company_waybill":
-      template += "trucking_company_waybill.html";
-      break;
-    case "tender_claim_template":
-      template += "tender_claim_template.html";
-      break;
-    case "check":
-      template += "check.html";
-      break;
-    case "voucher":
-      template += "voucher.html";
-      break;
-    case "transacton_acc":
-      template += "transacton_acc_template.html";
-    case "close_cash_box":
-      template += "closeCashBox.html";
-      break;
-    case "tender_claim_summary":
-      template += "tender_claim_summary.html";
-      break;
-    case "tender_claim_excel_adel":
-      template += "tender_claim_excel_adel.html";
-      break;
-    case "tender_claim_excel":
-      template += "tender_claim_excel.html";
-      break;
-    case "phosphate_report":
-      template += "phospateReport.html";
-      break;
-    case "AR_claim":
-      template += "AR_claim.html";
-  }
-  jsreport
-    .render({
-      template: {
-        content: fs.readFileSync(path.join(template), "utf8"),
-        engine: "handlebars",
-        recipe: "chrome-pdf",
-        helpers: fs.readFileSync(path.join("./utils.js"), "utf8"),
-        chrome: {
-          headerTemplate:
-            "<div style='text-align:center'>{#pageNum}/{#numPages}</div>",
-          width: "800px",
-          height: "148mm",
-          marginLeft: "1.1cm",
-          marginTop: "0.5cm",
-        },
-      },
-      data: req.body,
-    })
-    .then((resp) => {
-      // write report buffer to a file
-      res.writeHead(200, {
-        "Content-Type": "application/pdf",
-        "Content-Disposition": 'attachment; filename="filename.pdf"',
-      });
-      const download = Buffer.from(resp.content.toString("base64"), "base64");
-      res.end(download);
-    });
+  let buffer = "";
+    bucket
+      .file(req.body.type + ".html")
+      .download()
+      .then(async v => {
+        const resp = await jsreport.render({
+          template: {
+            content: v.toString(),
+            engine: "handlebars",
+            recipe: "chrome-pdf",
+            chrome: {
+              headerTemplate: "<div style='text-align:center'>Header</div>",
+              width: "800px",
+              marginTop: "1cm",
+              marginLeft: "1cm",
+            },
+          },
+          data:req.body
+        });
+        // write report buffer to a file
+        res.writeHead(200, {
+          "Content-Type": "application/pdf",
+          "Content-Disposition": 'attachment; filename="filename.pdf"',
+        });
+        const download = Buffer.from(resp.content.toString("base64"), "base64");
+        res.end(download);
+      })
+      
 };
 
 module.exports = {
   getXLS,
   generatePdfReport,
   generateReport,
-  generateXls,
+  generateXls
 };

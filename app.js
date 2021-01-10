@@ -1,8 +1,6 @@
-var express = require("express");
-var app = express();
-// var fs = require("fs");
-var request = require("request");
-const Excel = require("exceljs");
+require('dotenv').config()
+const express = require("express");
+const app = express();
 const {getXLS,generateXls,generatePdfReport,generateReport} = require("./helpers")
 
 app.timeout = 2000000; // about 30 minutes
@@ -47,4 +45,7 @@ app.post("/generatePdfReport", function (req, res) {
   generatePdfReport(req,res);
 });
 
-app.listen(5000);
+const PORT = process.env.PORT || 8080;
+app.listen(PORT, () => {
+  console.log(`Server listening on port ${PORT}...`);
+});

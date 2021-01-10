@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.js"
+      integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+      crossorigin="anonymous"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+      integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+      crossorigin="anonymous"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Cairo&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://storage.googleapis.com/minagate_config/Tafqeet.js"></script>
+    <script src="https://cdn.jsdelivr.net/jsbarcode/3.6.0/JsBarcode.all.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery.qrcode@1.0.3/jquery.qrcode.min.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/blueimp-md5/2.18.0/js/md5.min.js"
+      integrity="sha512-Hmp6qDy9imQmd15Ds1WQJ3uoyGCUz5myyr5ijainC1z+tP7wuXcze5ZZR3dF7+rkRALfNy7jcfgS5hH8wJ/2dQ=="
+      crossorigin="anonymous"
+    ></script>
+    <style>
+      body {
+        font-family: "Cairo", sans-serif;
+        font-size: 11px;
+        direction: rtl;
+        padding-right: 5%;
+      }
+
+      .field {
+        margin-bottom: 15px;
+        font-size: 18px;
+        display: flex;
+      }
+
+      .field_text {
+        border-bottom: 1px dashed #999;
+        text-decoration: none;
+        flex: 1;
+        margin-right: 7px;
+      }
+
+      .field_text_small {
+        border-bottom: 1px dashed #999;
+        text-decoration: none;
+        flex: 1;
+        margin-right: 7px;
+        font-size: 15px;
+      }
+
+      .QR {
+        /* margin-left: 0%; */
+        position: absolute;
+        top: -0px;
+        left: 0px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div
+      style="
+        display: flex;
+        justify-content: space-between;
+        border-bottom: 1px solid;
+        margin-bottom: 0px;
+        padding-bottom: 5px;
+      "
+    >
+      <img id="QR" style="max-height: 100px; align-self: center" src="" />
+
+      <div
+        style="
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+        "
+      ></div>
+      <img
+        class="col-sm-2 col-md-2 col-lg-2"
+        src="{{logo}}"
+        width="20%"
+        style="float: right; margin-right: 2%;max-height: 100px;"
+      />
+    </div>
+    <div style="display: flex">
+      <div style="flex: 1; display: flex">
+        <p style="font-size: 20px">التاريخ: {{currentDate}}</p>
+      </div>
+      <div style="flex: 1; text-align: center">
+        <h3 style="margin: 0">سند قبض</h3>
+      </div>
+      <div style="flex: 1; text-align: end">
+        <img id="barcode" style="max-height: 90px; padding-top: 2px" />
+      </div>
+    </div>
+    <div style="display: flex; justify-content: center; margin-bottom: 20px">
+      <div
+        style="border: 1px solid; width: 75px; height: 40px; text-align: center"
+      >
+        <p style="border-bottom: 1px solid; margin: 0">فلس</p>
+        <p style="margin: 0; font-size: 15px">{{decemelAmount}}</p>
+      </div>
+      <div
+        style="border: 1px solid; width: 75px; height: 40px; text-align: center"
+      >
+        <p style="border-bottom: 1px solid; margin: 0">دينار</p>
+        <p style="margin: 0; font-size: 15px">{{amountReal}}</p>
+      </div>
+    </div>
+    <div>
+      <div class="field" style="font-size: 12px">
+        <p>وصلني من :</p>
+        <p class="field_text">{{from_account_name}}</p>
+      </div>
+      <div class="field" style="font-size: 12px">
+        <p>وذلك عن :</p>
+        <p class="field_text">{{notes}}</p>
+      </div>
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th style="width: 6%; text-align: center; font-size: 12px">فلس</th>
+            <th style="width: 6%; text-align: center; font-size: 12px">
+              دينار
+            </th>
+            <th style="width: 35%; text-align: center; font-size: 12px">
+              البند
+            </th>
+            <th style="width: 21%; text-align: center; font-size: 12px">
+              نقدا/شيك
+            </th>
+            <th style="width: 20%; text-align: center; font-size: 12px">
+              البنك
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each items}}
+          <tr style="font-size: 10px">
+            <th style="text-align: center">{{amount_item__files}}</th>
+            <th style="text-align: center">{{amount_item_JD}}</th>
+            <th style="text-align: center">{{subject}}</th>
+            <th style="text-align: center">{{payment_method}}</th>
+            <th style="text-align: center">{{bank}}</th>
+          </tr>
+          {{/each}}
+          <tr style="font-size: 10px">
+            <td style="text-align: center">{{decemelAmount}}</td>
+            <td style="text-align: center">{{amountReal}}</td>
+            <td colspan="3" id="valueholder">مبلغ وقدره :</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div style="display: flex; justify-content: space-between; max-width: 90%">
+      <p id="payment_commission"></p>
+      <p>توقيع المستلم:</p>
+    </div>
+
+    <script>
+      $(document).ready(function () {
+        JsBarcode("#barcode", "{{id}}", {
+          height: 30,
+        });
+        let hashedVoucher = md5("{{id}}");
+
+        let paymentMethod = "{{payment_method}}";
+        $("#QR").attr(
+          "src",
+          `https://chart.googleapis.com/chart?cht=qr&chl=${hashedVoucher}&chs=200x200&chld=L|0`
+        );
+
+        let amount = "{{amount}}";
+        let decemelAmount =
+          Number(amount).toFixed(3).split(".")[1] == "000"
+            ? ""
+            : Number(amount).toFixed(3).split(".")[1];
+        let currencyValue = "دينار";
+        let tafqeetValue = tafqeet(amount);
+        if (Number(amount) % 100 == 0) {
+          currencyValue = "دينار";
+        } else if (
+          tafqeetValue.split(" ")[tafqeetValue.split(" ").length - 1][
+            tafqeetValue.split(" ")[tafqeetValue.split(" ").length - 1].length -
+              1
+          ] == "ة"
+        ) {
+          currencyValue = "دنانير";
+        } else {
+          currencyValue = "دينار";
+        }
+        if (
+          amount &&
+          amount.trim() != "" &&
+          decemelAmount &&
+          decemelAmount.trim() != ""
+        ) {
+          document.getElementById("valueholder").innerText =
+            tafqeet(amount) +
+            " " +
+            currencyValue +
+            " أردني " +
+            " و " +
+            decemelAmount +
+            " فلس " +
+            "فقط لاغير";
+        } else if (
+          amount &&
+          amount.trim() != "" &&
+          decemelAmount.trim() == ""
+        ) {
+          document.getElementById("valueholder").innerText =
+            " مبلغ وقدره " +
+            tafqeet(amount) +
+            " " +
+            currencyValue +
+            " أردني " +
+            "فقط لاغير";
+        }
+
+        let commission = "{{payment_commission}}";
+        if (commission) {
+          document.getElementById(
+            "payment_commission"
+          ).innerText = `تم خصم عمولة صرف بقيمة ${commission} د.أ`;
+        }
+      });
+    </script>
+  </body>
+</html>
