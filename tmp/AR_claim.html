@@ -151,35 +151,15 @@
                 سعر الطن
               </td>
               <td
-                style="
-                  font-size: 20px;
-                  padding: 5px;
-                  border-left: 1px solid #ccc;
-                  text-align: center;
-                "
-              >
-                غرامة النقص
-              </td>
-              <td
-                style="
-                  font-size: 20px;
-                  padding: 5px;
-                  border-left: 1px solid #ccc;
-                  text-align: center;
-                "
-              >
-                غرامة التأخير
-              </td>
-              <td
-                style="
-                  font-size: 20px;
-                  padding: 5px;
-                  border-left: 1px solid #ccc;
-                  text-align: center;
-                "
-              >
-                مجموع الغرامات
-              </td>
+              style="
+                font-size: 20px;
+                padding: 5px;
+                border-left: 1px solid #ccc;
+                text-align: center;
+              "
+            >
+              غرامة النقص
+            </td>
               <td
               style="
                 font-size: 20px;
@@ -188,8 +168,18 @@
                 text-align: center;
               "
             >
-              الاعطال
+              غرامة التأخير
             </td>
+              <td
+                style="
+                  font-size: 20px;
+                  padding: 5px;
+                  border-left: 1px solid #ccc;
+                  text-align: center;
+                "
+              >
+                الغرامات
+              </td>
               <td
                 style="
                   font-size: 20px;
@@ -257,7 +247,7 @@
                     padding: 2px;
                   "
                 >
-                  {{claim_cargo_name}}
+                  {{cargo_name}}
                 </td>
                 <td
                   style="
@@ -323,6 +313,24 @@
                   {{wage_per_ton}}
                 </td>
                 <td
+                style="
+                  border-left: 1px solid #ccc;
+                  text-align: center;
+                  padding: 2px;
+                "
+              >
+                {{total_fines}}
+              </td>
+                <td
+                style="
+                  border-left: 1px solid #ccc;
+                  text-align: center;
+                  padding: 2px;
+                "
+              >
+                {{late_fine}}
+              </td>
+                <td
                   style="
                     border-left: 1px solid #ccc;
                     text-align: center;
@@ -331,33 +339,6 @@
                 >
                   {{loss_fine}}
                 </td>
-                <td
-                  style="
-                    border-left: 1px solid #ccc;
-                    text-align: center;
-                    padding: 2px;
-                  "
-                >
-                  {{late_fine}}
-                </td>
-                <td
-                  style="
-                    border-left: 1px solid #ccc;
-                    text-align: center;
-                    padding: 2px;
-                  "
-                >
-                  {{total_fines}}
-                </td>
-                <td
-                style="
-                  border-left: 1px solid #ccc;
-                  text-align: center;
-                  padding: 2px;
-                "
-              >
-                {{compensation}}
-              </td>
                 <td
                   style="
                     border-left: 1px solid #ccc;
@@ -470,35 +451,8 @@
                     padding: 2px;
                   "
                 >
-                  {{totalLossFine}}
-                </td>
-                <td
-                  style="
-                    border-left: 1px solid #ccc;
-                    text-align: center;
-                    padding: 2px;
-                  "
-                >
-                  {{totalLateFine}}
-                </td>
-                <td
-                  style="
-                    border-left: 1px solid #ccc;
-                    text-align: center;
-                    padding: 2px;
-                  "
-                >
                   {{totalFines}}
                 </td>
-                <td
-                style="
-                  border-left: 1px solid #ccc;
-                  text-align: center;
-                  padding: 2px;
-                "
-              >
-                {{totalCompensation}}
-              </td>
                 <td
                   style="
                     border-left: 1px solid #ccc;
@@ -513,7 +467,8 @@
             </tbody>
           </table>
 
-          <div style="display: none" id="tadqeq">
+          
+          <div style="display: none;" id="tadqeq">
             <div style="page-break-before: always"></div>
             <div class="row">
               <div class="text-center col-xs-12">
@@ -808,9 +763,9 @@
     </div>
 
     <script>
-      var differences = "{{differences}}";
-      if (differences.length > 0) {
-        document.getElementById("tadqeq").style.display = "block";
+      var differences = '{{differences}}';
+      if(differences.length > 0){
+        document.getElementById("tadqeq").style.display = "block"
       }
     </script>
   </body>

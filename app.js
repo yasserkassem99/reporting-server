@@ -504,15 +504,6 @@ app.post("/generatePdfReport", function (req, res) {
   }
 
   if (req.body.type == "tender_claim_excel_adel") {
-    let newNumber = Number(req.body.totalData[0]['totalWages'].split(",").join(''))
-    let newtotalAmount = Number(req.body.totalData[0]['totalAmount'].split(",").join(''))
-  let wages = newNumber* 0.0015;
-  req.body.totalData[0]['totalAmount'] = Number(newtotalAmount - wages).toFixed(3)
-  .toString()
-  .replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
-  req.body.totalData[0]['checkWage'] = wages.toFixed(3)
-  .toString()
-  .replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
     jsreport
       .render({
         template: {
@@ -533,7 +524,6 @@ app.post("/generatePdfReport", function (req, res) {
           },
         },
         data: {
-          wages,
           data: req.body.data,
           titleData: req.body.titleData,
           totalData: req.body.totalData,
@@ -765,7 +755,11 @@ app.post("/generatePdfReport", function (req, res) {
           lossInKg:req.body.lossInKg,
           beneficiary_name:req.body.beneficiary_name,
           differences:req.body.differences,
-          totalApproved:req.body.totalApproved
+          totalApproved:req.body.totalApproved,
+          totalLossFine:req.body.totalLossFine,
+          totalLateFine:req.body.totalLateFine,
+          totalAbsenceFine:req.body.totalAbsenceFine,
+          totalCompensation:req.body.totalCompensation
         },
       })
       .then((resp) => {

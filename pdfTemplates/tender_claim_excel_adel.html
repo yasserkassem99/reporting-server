@@ -103,7 +103,9 @@
           <td style="font-size:20px;padding:5px;border-left: 1px solid #ccc;text-align: center;">العمولة</td>
           <td style="font-size:20px;padding:5px;border-left: 1px solid #ccc;text-align: center;">اجمالي</td>
           <td style="font-size:20px;padding:5px;border-left: 1px solid #ccc;text-align: center;">غرامة النقص</td>
+          <td style="font-size:20px;padding:5px;border-left: 1px solid #ccc;text-align: center;">غرامة التأخير</td>
           <td style="font-size:20px;padding:5px;border-left: 1px solid #ccc;text-align: center;">النقص</td>
+          <td style="font-size:20px;padding:5px;border-left: 1px solid #ccc;text-align: center;">الأعطال</td>
           <td style="font-size:20px;padding:5px;border-left: 1px solid #ccc;text-align: center;">طوابع</td>
           <td style="font-size:20px;padding:5px">المبلغ الصافي</td>
         </thead>
@@ -142,8 +144,14 @@
                 <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">
                   {{loss_fine}}
                 </td>
+                <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">
+                  {{late_fine}}
+                </td>
             <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">
               {{loss_in_kg}}
+            </td>
+            <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">
+              {{compensation}}
             </td>
             <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">
                 {{tawabe}}
@@ -177,10 +185,17 @@
               <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">
                 {{totalIjmali}}
               </td>
-                <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">{{totalFine}}
+                <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">
+                  {{totalLossFine}}
+                </td>
+                <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">
+                  {{totalLateFine}}
                 </td>
             <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">
               {{lossKg}}
+            </td>
+            <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">
+              {{totalCompensation}}
             </td>
             <td style="border-left: 1px solid #ccc;text-align: center;padding: 2px;">
                 {{totalTawabe}}
